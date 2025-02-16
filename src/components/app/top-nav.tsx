@@ -15,9 +15,14 @@ export default function TopNav() {
       <div className="flex items-center gap-2 sm:gap-4 ml-auto sm:ml-0">
         <button
           type="button"
-          className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-[#1F1F23] rounded-full transition-colors"
+          className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-[#1F1F23] rounded-full transition-colors relative"
         >
-          <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 dark:text-gray-300" />
+          <Bell className="size-6 text-gray-600 dark:text-gray-300" />
+          <div className="absolute top-[0.15rem] right-[0.15rem] bg-red-500 rounded-full min-size-5 flex items-center justify-center">
+            <span className="text-xs text-white font-medium p-[0.15rem]">
+              33
+            </span>
+          </div>
         </button>
 
         <DropdownMenu>
