@@ -1,6 +1,7 @@
 {
-  "name": "kokonut",
-  "version": "0.1.0",
+  "name": "school-manager",
+  "description": "A comprehensive solution for managing educational institutions, streamlining administrative tasks, and tracking student progress.",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",

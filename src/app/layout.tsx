@@ -5,8 +5,9 @@ import { ThemeProvider } from "@/components/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "KokonutUI Dashboard",
-  description: "A modern dashboard with theme switching",
+  title: "College Management System",
+  description:
+    "A comprehensive solution for managing educational institutions, streamlining administrative tasks, and tracking student progress.",
 };
 
 export default function RootLayout({
