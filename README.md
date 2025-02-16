@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# School Management System
 
-## Getting Started
+A comprehensive solution for managing educational institutions, streamlining administrative tasks, and tracking student progress.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Administrative Management
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Create and manage departments
+- Manage users (Admins, Department Leaders, Lecturers, Students)
+- Set up courses and their components (theory, practical, homework)
+- Monitor overall system performance
+- Assign guardians to students
+- Assign lecturers to departments
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Department Management
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Department leaders can oversee their department's performance
+- Track student progress within departments
+- Manage lecturer assignments
+- Create and monitor classes
+- Generate department-wide reports
 
-## Learn More
+### Course & Class Management
 
-To learn more about Next.js, take a look at the following resources:
+- Create and manage courses with custom fields
+  - Homework assignments
+  - Theory assessments
+  - Practical evaluations
+- Track class progress
+- Manage individual lessons
+- Monitor student attendance
+- Record and manage student marks
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Lecturer Tools
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Create and manage classes
+- Add students to classes
+- Record attendance
+- Input and manage marks
+- Track student progress
+- View class performance metrics
 
-## Deploy on Vercel
+### Student Portal
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- View enrolled classes
+- Check attendance records
+- Access marks and progress reports
+- Track performance across different courses
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Guardian Access
+
+- Monitor assigned students' progress
+- View attendance records
+- Check academic performance
+- Receive updates about student activities
+
+### Attendance Tracking
+
+- Daily attendance recording
+- Attendance reports per class
+- Individual student attendance history
+- Department-wide attendance analytics
+
+### Performance Monitoring
+
+- Mark recording and management
+- Progress tracking
+- Performance analytics
+- Custom assessment fields
+- Grade calculations
+
+## Role-Based Access
+
+### Admin
+
+- Full system access
+- User management
+- Department configuration
+- Course setup
+- System-wide reporting
+
+### Department Leader
+
+- Department-specific management
+- Lecturer assignment
+- Class oversight
+- Department performance tracking
+
+### Lecturer
+
+- Class management
+- Student assessment
+- Attendance tracking
+- Performance reporting
+
+### Student
+
+- Personal progress viewing
+- Attendance history
+- Mark checking
+- Course information access
+
+### Guardian
+
+- Ward progress monitoring
+- Attendance checking
+- Performance tracking
+- Academic updates
+
+## Key Benefits
+
+- Streamlined administrative processes
+- Enhanced communication between stakeholders
+- Comprehensive progress tracking
+- Detailed reporting and analytics
+- Flexible role-based access control
+- Real-time attendance monitoring
+- Efficient mark management
+- Transparent academic progress tracking
+
+## Technical Highlights
+
+- Secure user authentication
+- Role-based permissions
+- Automated reporting
+- Custom assessment fields
+- Comprehensive analytics
+- User-friendly interface
+- Mobile-responsive design
