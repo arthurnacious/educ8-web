@@ -1,7 +1,7 @@
 "use client";
 import type { ReactNode } from "react";
 import { useTheme } from "next-themes";
-import TopNav from "@/components/app/top-van";
+import TopNav from "@/components/app/top-nav";
 import Sidebar from "@/components/app/sidebar";
 
 interface LayoutProps {
