@@ -1,4 +1,5 @@
 import PageContainer from "@/components/app/page-container";
+import DataWrapper from "@/features/departments/data-wrapper";
 import React from "react";
 
 const breadcrumbs = [
@@ -6,7 +7,11 @@ const breadcrumbs = [
   { label: "Departments" },
 ];
 const Departments = () => {
-  return <PageContainer breadcrumbs={breadcrumbs}>Departments</PageContainer>;
+  return (
+    <PageContainer breadcrumbs={breadcrumbs}>
+      <DataWrapper />
+    </PageContainer>
+  );
 };
 
 export default Departments;

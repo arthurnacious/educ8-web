@@ -1,11 +1,9 @@
+import PageContainer from "@/components/app/page-container";
 import React from "react";
 
-const Page = () => {
-  return (
-    <div className="space-y-4">
-      <h1>Home</h1>
-    </div>
-  );
+const breadcrumbs = [{ label: "Dashboard" }];
+const Dashboard = () => {
+  return <PageContainer breadcrumbs={breadcrumbs}>Dashboard</PageContainer>;
 };
 
-export default Page;
+export default Dashboard;
