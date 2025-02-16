@@ -1,6 +1,6 @@
 # School Management System
 
-A comprehensive solution for managing educational institutions, streamlining administrative tasks, and tracking student progress.
+A comprehensive solution for managing educational institutions, streamlining administrative tasks, tracking student progress, and handling payments.
 
 ## Features
 
@@ -12,6 +12,20 @@ A comprehensive solution for managing educational institutions, streamlining adm
 - Monitor overall system performance
 - Assign guardians to students
 - Assign lecturers to departments
+- Set course prices and manage payment configurations
+
+### Payment Management
+
+- Process payments for classes
+- Multiple payment methods supported:
+  - Electronic Fund Transfer (EFT)
+  - Payment Gateway Integration
+  - Cash Payments
+- Track payment status for each student
+- Generate payment receipts
+- View payment history
+- Allow third-party payments with reference IDs
+- Process refunds when necessary
 
 ### Department Management
 
@@ -20,6 +34,7 @@ A comprehensive solution for managing educational institutions, streamlining adm
 - Manage lecturer assignments
 - Create and monitor classes
 - Generate department-wide reports
+- Monitor payment compliance
 
 ### Course & Class Management
 
@@ -27,10 +42,12 @@ A comprehensive solution for managing educational institutions, streamlining adm
   - Homework assignments
   - Theory assessments
   - Practical evaluations
+- Set pricing for courses
 - Track class progress
 - Manage individual lessons
 - Monitor student attendance
 - Record and manage student marks
+- Track payment status
 
 ### Lecturer Tools
 
@@ -40,6 +57,7 @@ A comprehensive solution for managing educational institutions, streamlining adm
 - Input and manage marks
 - Track student progress
 - View class performance metrics
+- Check student payment status
 
 ### Student Portal
 
@@ -47,6 +65,10 @@ A comprehensive solution for managing educational institutions, streamlining adm
 - Check attendance records
 - Access marks and progress reports
 - Track performance across different courses
+- View payment requirements
+- Access payment history
+- Download payment receipts
+- View outstanding balances
 
 ### Guardian Access
 
@@ -54,6 +76,23 @@ A comprehensive solution for managing educational institutions, streamlining adm
 - View attendance records
 - Check academic performance
 - Receive updates about student activities
+- View payment requirements
+- Access payment history
+- Make payments on behalf of students
+
+### Payment Features
+
+- Flexible payment methods
+  - EFT with reference tracking
+  - Integrated payment gateway options
+  - Cash payment recording
+- Payment tracking and reporting
+- Third-party payment support
+- Payment verification system
+- Automatic receipt generation
+- Payment history tracking
+- Outstanding balance monitoring
+- Payment reminder system
 
 ### Attendance Tracking
 
@@ -79,6 +118,8 @@ A comprehensive solution for managing educational institutions, streamlining adm
 - Department configuration
 - Course setup
 - System-wide reporting
+- Payment configuration
+- Payment tracking and management
 
 ### Department Leader
 
@@ -86,6 +127,7 @@ A comprehensive solution for managing educational institutions, streamlining adm
 - Lecturer assignment
 - Class oversight
 - Department performance tracking
+- Payment compliance monitoring
 
 ### Lecturer
 
@@ -93,6 +135,7 @@ A comprehensive solution for managing educational institutions, streamlining adm
 - Student assessment
 - Attendance tracking
 - Performance reporting
+- View payment status
 
 ### Student
 
@@ -100,6 +143,8 @@ A comprehensive solution for managing educational institutions, streamlining adm
 - Attendance history
 - Mark checking
 - Course information access
+- Make payments
+- View payment history
 
 ### Guardian
 
@@ -107,6 +152,8 @@ A comprehensive solution for managing educational institutions, streamlining adm
 - Attendance checking
 - Performance tracking
 - Academic updates
+- Make payments
+- View payment history
 
 ## Key Benefits
 
@@ -118,6 +165,8 @@ A comprehensive solution for managing educational institutions, streamlining adm
 - Real-time attendance monitoring
 - Efficient mark management
 - Transparent academic progress tracking
+- Integrated payment processing
+- Flexible payment options
 
 ## Technical Highlights
 
@@ -128,3 +177,5 @@ A comprehensive solution for managing educational institutions, streamlining adm
 - Comprehensive analytics
 - User-friendly interface
 - Mobile-responsive design
+- Secure payment processing
+- Payment gateway integration
