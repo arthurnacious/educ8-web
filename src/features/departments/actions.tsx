@@ -13,9 +13,10 @@ import { Edit, EllipsisVertical, Eye } from "lucide-react";
 
 interface Props {
   slug: string;
+  onEditClick: (slug: string) => void;
 }
 
-const Actions: FC<Props> = ({ slug }) => {
+const Actions: FC<Props> = ({ slug, onEditClick }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -26,7 +27,7 @@ const Actions: FC<Props> = ({ slug }) => {
       <DropdownMenuContent align="end">
         <DropdownMenuItem
           className="cursor-pointer"
-          onClick={() => console.log("Edit Department", slug)}
+          onClick={() => onEditClick(slug)}
         >
           <Edit className="size-4 mr-2" /> Edit
         </DropdownMenuItem>
