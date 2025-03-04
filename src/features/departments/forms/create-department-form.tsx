@@ -61,4 +61,4 @@ const CreateDepartmentForm: FC<Props> = ({ setOpen }) => {
   );
 };
 
-export default CreareDepartmentForm;
+export default CreateDepartmentForm;

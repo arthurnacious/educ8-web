@@ -1,10 +1,4 @@
-import {
-  LogOut,
-  MoveUpRight,
-  Settings,
-  CreditCard,
-  FileText,
-} from "lucide-react";
+import { LogOut, MoveUpRight, Settings, FileText } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
