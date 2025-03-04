@@ -25,7 +25,7 @@ const formSchema = z.object({
   }),
 });
 
-const CreareDepartmentForm: FC<Props> = ({ setOpen }) => {
+const CreateDepartmentForm: FC<Props> = ({ setOpen }) => {
   const mutation = useCreateDepartment({ setOpen });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
