@@ -5,6 +5,7 @@ import { columns } from "./columns";
 import { useGetAllDepartments } from "./queries";
 import CreateDepartmentModal from "./modals/creare-department-modal";
 import EditDepartmentModal from "./modals/edit-department-modal";
+import { PackageOpen } from "lucide-react";
 
 type Props = object;
 
@@ -21,6 +22,7 @@ const DataWrapper: FC<Props> = ({}) => {
   >();
   const { data: departments, isLoading, isError } = useGetAllDepartments();
 
+  console.log(departments);
   return (
     <div>
       <div className="flex justify-between">
@@ -35,12 +37,22 @@ const DataWrapper: FC<Props> = ({}) => {
 
       {isLoading && <p>Loading...</p>}
       {isError && <p>An error occurred.</p>}
-      {departments.length > 0 && (
+
+      {departments?.data && departments.data.length === 0 && (
+        <div className="flex flex-col items-center justify-center gap-4 p-6 rounded-lg shadow-sm">
+          <PackageOpen size={100} className=" text-gray-400" />
+          <h2 className="text-lg font-semibold text-gray-300">
+            No Departments in the System
+          </h2>
+        </div>
+      )}
+
+      {departments && (
         <DataTable
           columns={columns({
             onEditClick: setEditDepartmentSlug,
           })}
-          data={departments}
+          data={departments.data}
           defaultSortingColumn="name"
         />
       )}

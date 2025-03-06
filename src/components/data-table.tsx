@@ -74,6 +74,8 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  console.log(data);
+
   const toNormalCase = (text: string): string => {
     return text
       .replace(/([a-z])([A-Z])/g, "$1 $2") // Add space between lowercase and uppercase
