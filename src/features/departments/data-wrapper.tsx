@@ -1,11 +1,12 @@
 "use client";
 import { DataTable } from "@/components/data-table";
 import React, { FC, useState } from "react";
-import { columns } from "./columns";
+import { columns } from "./columns/all-departments-columns";
 import { useGetAllDepartments } from "./queries";
 import CreateDepartmentModal from "./modals/creare-department-modal";
 import EditDepartmentModal from "./modals/edit-department-modal";
 import { PackageOpen } from "lucide-react";
+import EmptyData from "@/components/empty-data";
 
 type Props = object;
 
@@ -39,12 +40,11 @@ const DataWrapper: FC<Props> = ({}) => {
       {isError && <p>An error occurred.</p>}
 
       {departments?.data && departments.data.length === 0 && (
-        <div className="flex flex-col items-center justify-center gap-4 p-6 rounded-lg shadow-sm">
-          <PackageOpen size={100} className=" text-gray-400" />
+        <EmptyData>
           <h2 className="text-lg font-semibold text-gray-300">
             No Departments in the System
           </h2>
-        </div>
+        </EmptyData>
       )}
 
       {departments && (

@@ -15,7 +15,7 @@ const EditDepartmentModal: FC<Props> = ({ slug, close }) => {
       title="Edit Department"
       description="Modify department details"
     >
-      {slug && <EditDepartmentForm closeModal={close} slug={slug} />}
+      {slug && <EditDepartmentForm onSuccessCallback={close} slug={slug} />}
     </FlexDialog>
   );
 };

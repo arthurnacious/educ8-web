@@ -48,7 +48,7 @@ const FlexDialog: FC<FlexDialogProps> = ({
               <DrawerDescription>{description}</DrawerDescription>
             )}
           </DrawerHeader>
-          <div className="mx-10 mb-10">{content || children}</div>
+          <div className="mx-5 mb-10">{content || children}</div>
         </DrawerContent>
       </Drawer>
     );
@@ -62,7 +62,7 @@ const FlexDialog: FC<FlexDialogProps> = ({
           {title && <DialogTitle>{title}</DialogTitle>}
           {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
-        <div className="mx-10 mb-10">{content || children}</div>
+        <div className="mb-10">{content || children}</div>
       </DialogContent>
     </Dialog>
   );

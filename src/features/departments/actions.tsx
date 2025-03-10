@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Edit, EllipsisVertical, Eye } from "lucide-react";
+import { Edit, EllipsisVertical, Eye, Pickaxe } from "lucide-react";
 
 interface Props {
   slug: string;
@@ -29,7 +29,12 @@ const Actions: FC<Props> = ({ slug, onEditClick }) => {
           className="cursor-pointer"
           onClick={() => onEditClick(slug)}
         >
-          <Edit className="size-4 mr-2" /> Edit
+          <Edit className="size-4 mr-2" /> Quick Edit
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer" asChild>
+          <Link href={`departments/${slug}/edit`}>
+            <Pickaxe className="size-4 mr-2" /> Advanced Edit
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer" asChild>
           <Link href={`departments/${slug}`}>

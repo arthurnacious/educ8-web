@@ -1,3 +1,4 @@
+"use client";
 import React, { FC } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -17,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { useGetDepartmentBySlug } from "../queries";
 
 type Props = {
-  closeModal: () => void;
+  onSuccessCallback?: () => void;
   slug?: string;
 };
 
@@ -27,8 +28,11 @@ const formSchema = z.object({
   }),
 });
 
-const EditDepartmentForm: FC<Props> = ({ closeModal, slug }) => {
-  const mutation = useUpdateDepartment({ closeModal, slug: slug as string });
+const EditDepartmentForm: FC<Props> = ({ onSuccessCallback, slug }) => {
+  const mutation = useUpdateDepartment({
+    onSuccessCallback,
+    slug: slug as string,
+  });
   const { data, isLoading, isError } = useGetDepartmentBySlug(slug as string);
 
   const department = data?.data;
@@ -70,7 +74,7 @@ const EditDepartmentForm: FC<Props> = ({ closeModal, slug }) => {
           )}
         />
         <Button type="submit" isLoading={mutation.isPending} variant="outline">
-          Edit
+          Update
         </Button>
       </form>
     </Form>

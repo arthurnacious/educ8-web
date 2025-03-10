@@ -1,13 +1,13 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import Actions from "./actions";
+import Actions from "../actions";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface Props {
-  onEditClick: (slug: string) => void;
+  onEditClick?: (slug: string) => void;
 }
 
 interface Department {
