@@ -1,5 +1,3 @@
-import { departmentUserRole } from "./roles";
-
 export interface Department {
   id: string;
   name: string;
@@ -25,9 +23,13 @@ export interface User {
 
 export interface DepartmentWithMembers extends Department {
   members: {
-    id: string;
-    name: string;
-    email?: string;
-    role: departmentUserRole;
+    departmentId: string;
+    userId: string;
+    role: string;
+    user: {
+      id: string;
+      name: string;
+      email: string;
+    };
   }[];
 }

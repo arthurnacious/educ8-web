@@ -7,7 +7,6 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { columns } from "./columns/advanced-edit-department-columns";
 import { useGetDepartmentBySlug } from "./queries";
 import EmptyData from "@/components/empty-data";
-import AssignUserToDepartmentModal from "./modals/assign-user-to-department-modal";
 
 interface Props {
   slug: string;

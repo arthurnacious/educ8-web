@@ -13,7 +13,7 @@ import { Edit, EllipsisVertical, Eye, Pickaxe } from "lucide-react";
 
 interface Props {
   slug: string;
-  onEditClick: (slug: string) => void;
+  onEditClick?: (slug: string) => void;
 }
 
 const Actions: FC<Props> = ({ slug, onEditClick }) => {
@@ -27,7 +27,7 @@ const Actions: FC<Props> = ({ slug, onEditClick }) => {
       <DropdownMenuContent align="end">
         <DropdownMenuItem
           className="cursor-pointer"
-          onClick={() => onEditClick(slug)}
+          onClick={() => (onEditClick ? onEditClick(slug) : undefined)}
         >
           <Edit className="size-4 mr-2" /> Quick Edit
         </DropdownMenuItem>

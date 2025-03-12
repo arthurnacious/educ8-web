@@ -40,7 +40,7 @@ const formSchema = z.object({
 });
 
 const AssignUserToDepartmentForm: FC<Props> = ({ slug, onSuccess }) => {
-  const { data: usersData, isLoading, isError } = useGetAllUsers();
+  const { data: usersData, isLoading } = useGetAllUsers();
   const { data: departmentsData } = useGetDepartmentBySlug(slug);
   const { mutate, isPending: isAssigning } = useAssignUserToDepartment({
     onSuccess,

@@ -5,7 +5,6 @@ import { columns } from "./columns/all-departments-columns";
 import { useGetAllDepartments } from "./queries";
 import CreateDepartmentModal from "./modals/creare-department-modal";
 import EditDepartmentModal from "./modals/edit-department-modal";
-import { PackageOpen } from "lucide-react";
 import EmptyData from "@/components/empty-data";
 
 type Props = object;
@@ -22,8 +21,6 @@ const DataWrapper: FC<Props> = ({}) => {
     string | undefined
   >();
   const { data: departments, isLoading, isError } = useGetAllDepartments();
-
-  console.log(departments);
   return (
     <div>
       <div className="flex justify-between">

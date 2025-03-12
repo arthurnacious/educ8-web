@@ -2,8 +2,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
 interface Member {
-  id: string;
-  name: string;
+  departmentId: string;
+  userId: string;
+  role: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+  };
 }
 
 type Props = object;
@@ -34,7 +40,10 @@ export const columns = ({}: Props): ColumnDef<Member>[] => [
   {
     id: "name",
     header: "Name",
-    cell: ({ row }) => row.original.user.name,
+    cell: ({ row }) => {
+      console.log(row.original);
+      return row.original.user.name;
+    },
   },
   {
     id: "email",

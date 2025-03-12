@@ -4,10 +4,11 @@ import AdvancedEditModals from "@/features/departments/modals/advanced-edit-moda
 import { FC } from "react";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-const EditDepartment: FC<Props> = ({ params: { slug } }) => {
+const EditDepartment: FC<Props> = async ({ params }) => {
+  const { slug } = await params;
   const breadcrumbs = [
     { label: "Dashboard", href: "/" },
     { label: "Departments", href: "/departments" },
