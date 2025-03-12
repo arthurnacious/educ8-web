@@ -9,8 +9,10 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  Row,
   RowSelectionState,
   SortingState,
+  Table as Ttable,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -31,6 +33,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface FilterColumn {
   label: string;
@@ -42,6 +45,22 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   defaultSortingColumn: string;
   filterColumns?: FilterColumn[];
+  onDelete: (ROWS: Row<TData>[]) => void;
+  deleteIsDisabled?: boolean;
+}
+
+function deleteRowsData<TData>(
+  confirm: () => Promise<boolean>,
+  onDelete: (ROWS: Row<TData>[]) => void,
+  table: Ttable<TData>
+) {
+  return async () => {
+    const continueDelete = await confirm();
+    if (continueDelete) {
+      onDelete(table.getFilteredSelectedRowModel().rows);
+      table.resetRowSelection();
+    }
+  };
 }
 
 export function DataTable<TData, TValue>({
@@ -49,6 +68,8 @@ export function DataTable<TData, TValue>({
   data,
   defaultSortingColumn,
   filterColumns,
+  onDelete,
+  deleteIsDisabled = false,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [sortingColumn, setSortingColumn] = useState<string | undefined>(
@@ -56,6 +77,11 @@ export function DataTable<TData, TValue>({
   );
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+
+  const [ConfirmActionDialog, confirm] = useConfirm({
+    title: "Are You sure?",
+    message: "Action cannot be undone",
+  });
 
   const table = useReactTable({
     data,
@@ -74,8 +100,6 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  console.log(data);
-
   const toNormalCase = (text: string): string => {
     return text
       .replace(/([a-z])([A-Z])/g, "$1 $2") // Add space between lowercase and uppercase
@@ -89,6 +113,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
+      <ConfirmActionDialog />
       <div className="flex items-center justify-between py-4 gap-2">
         <div className="flex items-center gap-2">
           {filterColumns && (
@@ -126,7 +151,11 @@ export function DataTable<TData, TValue>({
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
-            disabled={table.getFilteredSelectedRowModel().rows.length === 0}
+            disabled={
+              table.getFilteredSelectedRowModel().rows.length === 0 &&
+              !deleteIsDisabled
+            }
+            onClick={deleteRowsData<TData>(confirm, onDelete, table)}
           >
             Delete {table.getFilteredSelectedRowModel().rows.length}
           </Button>

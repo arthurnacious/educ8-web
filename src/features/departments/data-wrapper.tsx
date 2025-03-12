@@ -6,6 +6,7 @@ import { useGetAllDepartments } from "./queries";
 import CreateDepartmentModal from "./modals/creare-department-modal";
 import EditDepartmentModal from "./modals/edit-department-modal";
 import EmptyData from "@/components/empty-data";
+import { useDeleteDepartments } from "./mutations";
 
 type Props = object;
 
@@ -21,6 +22,7 @@ const DataWrapper: FC<Props> = ({}) => {
     string | undefined
   >();
   const { data: departments, isLoading, isError } = useGetAllDepartments();
+  const { mutate: deleteSelctedDepartments } = useDeleteDepartments({});
   return (
     <div>
       <div className="flex justify-between">
@@ -49,6 +51,10 @@ const DataWrapper: FC<Props> = ({}) => {
           columns={columns({
             onEditClick: setEditDepartmentSlug,
           })}
+          onDelete={(rows) => {
+            const ids = rows.map(({ original }) => original.id);
+            deleteSelctedDepartments({ ids });
+          }}
           data={departments.data}
           defaultSortingColumn="name"
         />

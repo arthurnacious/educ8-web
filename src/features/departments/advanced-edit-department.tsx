@@ -7,6 +7,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { columns } from "./columns/advanced-edit-department-columns";
 import { useGetDepartmentBySlug } from "./queries";
 import EmptyData from "@/components/empty-data";
+import { useUnassignedMembersWithIds } from "./mutations";
 
 interface Props {
   slug: string;
@@ -17,6 +18,7 @@ const AdvancedEditDepartment: FC<Props> = ({ slug }) => {
   const [activeRole, setActiveRole] = useState<departmentUserRole>(
     departmentUserRole.LECTURER
   );
+  const { mutate: unasignTheseIds } = useUnassignedMembersWithIds({ slug });
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>An error occurred.</p>;
@@ -25,8 +27,6 @@ const AdvancedEditDepartment: FC<Props> = ({ slug }) => {
   const filteredMembers = data?.data.members.filter(
     (member) => member.role === activeRole
   );
-
-  console.log(filteredMembers);
 
   return (
     <div className="space-y-4">
@@ -53,6 +53,13 @@ const AdvancedEditDepartment: FC<Props> = ({ slug }) => {
               <DataTable
                 defaultSortingColumn="name"
                 columns={columns({})}
+                onDelete={(rows) => {
+                  const ids = rows.map(({ original }) => ({
+                    userId: original.userId,
+                    departmentId: original.departmentId,
+                  }));
+                  unasignTheseIds({ idObject: ids });
+                }}
                 data={filteredMembers}
               />
             </TabsContent>

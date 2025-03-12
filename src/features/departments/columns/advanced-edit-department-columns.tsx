@@ -41,7 +41,6 @@ export const columns = ({}: Props): ColumnDef<Member>[] => [
     id: "name",
     header: "Name",
     cell: ({ row }) => {
-      console.log(row.original);
       return row.original.user.name;
     },
   },

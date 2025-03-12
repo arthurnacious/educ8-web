@@ -59,8 +59,6 @@ const AssignUserToDepartmentForm: FC<Props> = ({ slug, onSuccess }) => {
   const isDisabled = isLoading || (users && users.length === 0) || isAssigning;
   const department = departmentsData?.data;
 
-  console.log({ users });
-
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     mutate({ ...values, departmentId: department?.id as string });
   };
