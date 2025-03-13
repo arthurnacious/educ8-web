@@ -69,7 +69,6 @@ export const useDeleteDepartments = ({
   const { toast } = useToast();
 
   const deleteDepartment = async ({ ids }: { ids: string[] }) => {
-    console.log(ids);
     const response = await fetch(`${api_url}/departments`, {
       method: "PATCH",
       headers: {

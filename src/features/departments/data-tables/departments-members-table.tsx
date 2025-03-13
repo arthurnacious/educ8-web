@@ -4,20 +4,21 @@ import React, { FC, useState } from "react";
 import { departmentUserRole } from "@/types/roles";
 import { DataTable } from "@/components/data-table";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { columns } from "./columns/advanced-edit-department-columns";
-import { useGetDepartmentBySlug } from "./queries";
+import { columns } from "../columns/departments-members-columns";
+import { useGetDepartmentBySlug } from "../queries";
 import EmptyData from "@/components/empty-data";
-import { useUnassignedMembersWithIds } from "./mutations";
+import { useUnassignedMembersWithIds } from "../mutations";
 
 interface Props {
   slug: string;
 }
 
-const AdvancedEditDepartment: FC<Props> = ({ slug }) => {
-  const { data, isLoading, isError } = useGetDepartmentBySlug(slug);
+const DepartmentsMembersTable: FC<Props> = ({ slug }) => {
   const [activeRole, setActiveRole] = useState<departmentUserRole>(
     departmentUserRole.LECTURER
   );
+
+  const { data, isLoading, isError } = useGetDepartmentBySlug(slug);
   const { mutate: unasignTheseIds } = useUnassignedMembersWithIds({ slug });
 
   if (isLoading) return <p>Loading...</p>;
@@ -29,7 +30,7 @@ const AdvancedEditDepartment: FC<Props> = ({ slug }) => {
   );
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mt-5">
       <Tabs
         value={activeRole}
         onValueChange={(value) => setActiveRole(value as departmentUserRole)}
@@ -70,4 +71,4 @@ const AdvancedEditDepartment: FC<Props> = ({ slug }) => {
   );
 };
 
-export default AdvancedEditDepartment;
+export default DepartmentsMembersTable;

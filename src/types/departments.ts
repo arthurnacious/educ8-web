@@ -21,7 +21,7 @@ export interface User {
   image?: string;
 }
 
-export interface DepartmentWithMembers extends Department {
+export interface GetDepartmentBySlugType extends Department {
   members: {
     departmentId: string;
     userId: string;
@@ -31,5 +31,11 @@ export interface DepartmentWithMembers extends Department {
       name: string;
       email: string;
     };
+  }[];
+  courses: {
+    id: string;
+    name: string;
+    slug: string;
+    createdAt: Date;
   }[];
 }
