@@ -21,7 +21,7 @@ const EditDepartment: FC<Props> = async ({ params }) => {
       <h1 className="text-3xl font-bold mb-2">Advanced Department Edit</h1>
       <div className="border-t border-gray-500" />
       <AdvancedEditModals slug={slug} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 border border-neutral-900 p-5 rounded-lg shadow-md shadow-black">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 border border-neutral-900 p-5 rounded-lg shadow-md shadow-black">
         <div>
           <h2 className="text-2xl"> Departments Members</h2>
           <DepartmentsMembersTable slug={slug} />

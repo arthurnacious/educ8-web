@@ -23,17 +23,15 @@ const DepartmentsCoursesTable: FC<Props> = ({ slug }) => {
 
   return (
     <div className="space-y-4 mt-5">
-      <div className="h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground flex space-x-2">
-        <div className="h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground flex space-x-2">
-          {Array.from({ length: 3 }).map((_, idx) => (
-            <div
-              key={idx}
-              className={cn("h-7 w-24 rounded-md", {
-                "bg-background": idx === 0,
-              })}
-            />
-          ))}
-        </div>
+      <div className="h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground flex space-x-2 px-3">
+        {Array.from({ length: 3 }).map((_, idx) => (
+          <div
+            key={idx}
+            className={cn("h-7 w-24 rounded-md", {
+              "bg-background": idx === 0,
+            })}
+          />
+        ))}
       </div>
       <DataTable
         defaultSortingColumn="name"

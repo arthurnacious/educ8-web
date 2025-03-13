@@ -6,6 +6,13 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 interface DataTablePaginationProps<TData> {
   table: Ttable<TData>;
@@ -38,7 +45,7 @@ const DataTablePagination = <TData,>({
   const pages = generatePageNumbers(pageIndex + 1, pageCount);
 
   return (
-    <div className="flex items-center justify-between py-4">
+    <div className="flex flex-col md:flex-row items-center justify-between py-4 gap-4 overflow-scroll">
       {/* Pagination Controls */}
       <div className="flex items-center space-x-2">
         <Button
@@ -58,22 +65,25 @@ const DataTablePagination = <TData,>({
           <ChevronLeft className="w-4 h-4" />
         </Button>
 
-        {pages.map((page, index) =>
-          page === "..." ? (
-            <span key={index} className="px-2 text-sm">
-              ...
-            </span>
-          ) : (
-            <Button
-              key={index}
-              variant={pageIndex + 1 === page ? "default" : "outline"}
-              size="sm"
-              onClick={() => table.setPageIndex(page - 1)}
-            >
-              {page}
-            </Button>
-          )
-        )}
+        {/* Page Numbers */}
+        <div className="flex items-center space-x-1">
+          {pages.map((page, index) =>
+            page === "..." ? (
+              <span key={index} className="px-2 text-sm">
+                ...
+              </span>
+            ) : (
+              <Button
+                key={index}
+                variant={pageIndex + 1 === page ? "default" : "outline"}
+                size="sm"
+                onClick={() => table.setPageIndex(page - 1)}
+              >
+                {page}
+              </Button>
+            )
+          )}
+        </div>
 
         <Button
           variant="outline"
@@ -93,10 +103,42 @@ const DataTablePagination = <TData,>({
         </Button>
       </div>
 
-      {/* Row Selection Info */}
-      <div className="flex-1 text-sm text-muted-foreground text-right">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
+      {/* Page Size Selection + Row Info */}
+      <div className="flex items-center space-x-3">
+        {/* Page Size Dropdown */}
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-nowrap">Rows per page:</span>
+          <Select
+            value={String(table.getState().pagination.pageSize)}
+            onValueChange={(value) => table.setPageSize(Number(value))}
+          >
+            <SelectTrigger className="w-[80px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {[10, 20, 50, 100].map((size) => (
+                <SelectItem key={size} value={String(size)}>
+                  {size}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Row Count Display */}
+        <div className="text-sm text-muted-foreground text-right text-nowrap">
+          Showing{" "}
+          {table.getState().pagination.pageIndex *
+            table.getState().pagination.pageSize +
+            1}{" "}
+          -{" "}
+          {Math.min(
+            (table.getState().pagination.pageIndex + 1) *
+              table.getState().pagination.pageSize,
+            table.getFilteredRowModel().rows.length
+          )}{" "}
+          of {table.getFilteredRowModel().rows.length} items
+        </div>
       </div>
     </div>
   );
