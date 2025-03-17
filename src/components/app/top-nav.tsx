@@ -3,11 +3,13 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Bell } from "lucide-react";
+import { Bell, Loader2, UserCircle } from "lucide-react";
 import Image from "next/image";
 import AuthUserProfile from "./auth-user-profile";
+import { useSession } from "next-auth/react";
 
 export default function TopNav() {
+  const { data: session, status } = useSession();
   return (
     <nav className="px-3 sm:px-6 flex items-center justify-between bg-white dark:bg-[#0F0F12] border-b border-gray-200 dark:border-[#1F1F23] h-full">
       <div />
@@ -25,28 +27,40 @@ export default function TopNav() {
           </div>
         </button>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger className="focus:outline-none">
-            <Image
-              src="https://avatars.githubusercontent.com/u/7934173?v=4"
-              alt="User avatar"
-              width={28}
-              height={28}
-              className="rounded-full ring-2 ring-gray-200 dark:ring-[#2B2B30] sm:w-8 sm:h-8 cursor-pointer"
-            />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            sideOffset={8}
-            className="w-[280px] sm:w-80 bg-background border-border rounded-lg shadow-lg"
-          >
-            <AuthUserProfile
-              name="Arthurnacious Monethi"
-              role="Admin"
-              avatar="https://avatars.githubusercontent.com/u/7934173?v=4"
-            />
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {status === "loading" ? (
+          <Loader2 className="size-8 text-gray-600 dark:text-gray-300 animate-spin" />
+        ) : session?.user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger className="focus:outline-none">
+              {session.user.image ? (
+                <Image
+                  src={session.user.image}
+                  alt="User avatar"
+                  width={28}
+                  height={28}
+                  className="rounded-full ring-2 ring-gray-200 dark:ring-[#2B2B30] sm:w-8 sm:h-8 cursor-pointer"
+                />
+              ) : (
+                <UserCircle className="size-8 text-gray-600 dark:text-gray-300" />
+              )}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              sideOffset={8}
+              className="w-fit bg-background border-border rounded-lg shadow-lg bg-neutral-900"
+            >
+              <AuthUserProfile
+                name={session?.user.name ?? ""}
+                role={session?.user.role ?? ""}
+                avatar={session?.user.image ?? ""}
+              />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <div className="size-8 rounded-full ring-2 ring-gray-200 dark:ring-[#2B2B30] sm:w-8 sm:h-8 cursor-pointer">
+            <UserCircle className="w-full h-full text-gray-600 dark:text-gray-300" />
+          </div>
+        )}
       </div>
     </nav>
   );

@@ -14,12 +14,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { FC } from "react";
+import { useSignIn } from "../mutations";
 
 type Props = object;
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  email: z.string().min(1, {
+    message: "Email is required",
   }),
   password: z.string().min(6, {
     message: "Password must be at least 6 characters.",
@@ -27,16 +28,17 @@ const formSchema = z.object({
 });
 
 const LoginForm: FC<Props> = () => {
+  const { isPending, mutate: signInInUser } = useSignIn();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
 
   function signIn(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    signInInUser(values);
   }
 
   return (
@@ -48,11 +50,11 @@ const LoginForm: FC<Props> = () => {
         <form onSubmit={form.handleSubmit(signIn)} className="space-y-4">
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-gray-700 dark:text-gray-300">
-                  Username
+                  Email
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -89,6 +91,7 @@ const LoginForm: FC<Props> = () => {
             <Button
               type="submit"
               className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg transition"
+              isLoading={isPending}
             >
               Sign In
             </Button>

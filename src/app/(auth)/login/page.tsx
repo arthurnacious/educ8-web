@@ -1,4 +1,4 @@
-import LoginForm from "@/features/login/components/form";
+import LoginForm from "@/features/auth/forms/login-form";
 import React from "react";
 
 function Page() {

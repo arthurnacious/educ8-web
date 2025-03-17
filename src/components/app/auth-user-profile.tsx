@@ -14,7 +14,7 @@ interface MenuItem {
 interface Props {
   name: string;
   role: string;
-  avatar: string;
+  avatar?: string;
   subscription?: string;
 }
 
@@ -34,17 +34,21 @@ const menuItems: MenuItem[] = [
 const AuthUserProfile: FC<Props> = ({ name, role, avatar }) => {
   return (
     <div className="w-full max-w-sm mx-auto">
-      <div className="relative overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800">
+      <div className="relative overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800 bg-neutral-950">
         <div className="relative px-6 pt-5 pb-6">
           <div className="flex items-center gap-4 mb-8">
             <div className="relative shrink-0">
-              <Image
-                src={avatar}
-                alt={name}
-                width={72}
-                height={72}
-                className="rounded-full ring-4 ring-white dark:ring-zinc-900 object-cover"
-              />
+              {avatar ? (
+                <Image
+                  src={avatar}
+                  alt={name}
+                  width={42}
+                  height={42}
+                  className="rounded-full ring-4 ring-white dark:ring-zinc-900 object-cover"
+                />
+              ) : (
+                <div className="w-12 h-12 rounded-full ring-4 ring-white dark:ring-zinc-900 bg-zinc-200 dark:bg-zinc-800" />
+              )}
               <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-zinc-900" />
             </div>
 

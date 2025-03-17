@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "avatars.githubusercontent.com",
         pathname: "/u/**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.jsdelivr.net",
+        pathname: "/gh/faker-js/assets-person-portrait/**",
+      },
     ],
   },
 };
