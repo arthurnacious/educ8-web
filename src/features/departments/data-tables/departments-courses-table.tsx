@@ -7,18 +7,19 @@ import { useGetDepartmentBySlug } from "../queries";
 import { cn } from "@/lib/utils";
 import { useDeleteCourses } from "@/features/courses/mutations";
 import TableSkeleton from "@/components/table-skeleton";
+import TableError from "@/components/table-error";
 
 interface Props {
   slug: string;
 }
 
 const DepartmentsCoursesTable: FC<Props> = ({ slug }) => {
-  const { data, isLoading, isError } = useGetDepartmentBySlug(slug);
+  const { data, isLoading, isError, refetch } = useGetDepartmentBySlug(slug);
   const { mutate: deleteCourses } = useDeleteCourses({ slug });
 
-  if (isLoading) return <TableSkeleton className="mt-5" rows={11} />;
-  if (isError) return <p>An error occurred.</p>;
-  if (!data?.data) return <p>No data found.</p>;
+  if (isLoading || !data?.data)
+    return <TableSkeleton className="mt-5" rows={11} />;
+  if (isError) return <TableError className="mt-5" onRetry={() => refetch} />;
 
   const courses = data.data.courses;
 

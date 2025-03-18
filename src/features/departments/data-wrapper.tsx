@@ -8,6 +8,7 @@ import EditDepartmentModal from "./modals/edit-department-modal";
 import EmptyData from "@/components/empty-data";
 import { useDeleteDepartments } from "./mutations";
 import TableSkeleton from "@/components/table-skeleton";
+import TableError from "@/components/table-error";
 
 type Props = object;
 
@@ -22,7 +23,12 @@ const DataWrapper: FC<Props> = ({}) => {
   const [editDepartmentSlug, setEditDepartmentSlug] = useState<
     string | undefined
   >();
-  const { data: departments, isLoading, isError } = useGetAllDepartments();
+  const {
+    data: departments,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetAllDepartments();
   const { mutate: deleteSelctedDepartments } = useDeleteDepartments({});
   return (
     <div>
@@ -35,18 +41,17 @@ const DataWrapper: FC<Props> = ({}) => {
         close={() => setEditDepartmentSlug(undefined)}
       />
 
-      {isLoading && <TableSkeleton className="mt-5" />}
-      {isError && <p>An error occurred.</p>}
-
-      {departments?.data && departments.data.length === 0 && (
+      {isLoading || !departments?.data ? (
+        <TableSkeleton className="mt-5" />
+      ) : isError ? (
+        <TableError className="mt-5" onRetry={() => refetch()} />
+      ) : departments?.data && departments.data.length === 0 ? (
         <EmptyData>
           <h2 className="text-lg font-semibold text-gray-300">
             No Departments in the System
           </h2>
         </EmptyData>
-      )}
-
-      {departments && (
+      ) : departments?.data ? (
         <DataTable
           columns={columns({
             onEditClick: setEditDepartmentSlug,
@@ -58,7 +63,7 @@ const DataWrapper: FC<Props> = ({}) => {
           data={departments.data}
           defaultSortingColumn="name"
         />
-      )}
+      ) : null}
     </div>
   );
 };
