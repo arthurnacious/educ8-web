@@ -14,7 +14,7 @@ interface Props {
 
 const PageContainer: React.FC<Props> = ({ children, breadcrumbs }) => {
   return (
-    <div className="flex min-h-screen flex-1 flex-col">
+    <div className="flex min-h-[100vdh - 4rem] flex-1 flex-col">
       <div className="flex items-center border-b gap-2 border-gray-200 dark:border-[#1F1F23] h-10 mb-10">
         {breadcrumbs?.map((item, index) => (
           <div key={item.label} className="flex items-center">

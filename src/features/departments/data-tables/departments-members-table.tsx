@@ -8,6 +8,7 @@ import { columns } from "../columns/departments-members-columns";
 import { useGetDepartmentBySlug } from "../queries";
 import EmptyData from "@/components/empty-data";
 import { useUnassignedMembersWithIds } from "../mutations";
+import TableSkeleton from "@/components/table-skeleton";
 
 interface Props {
   slug: string;
@@ -21,7 +22,7 @@ const DepartmentsMembersTable: FC<Props> = ({ slug }) => {
   const { data, isLoading, isError } = useGetDepartmentBySlug(slug);
   const { mutate: unasignTheseIds } = useUnassignedMembersWithIds({ slug });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <TableSkeleton className="mt-5" rows={11} />;
   if (isError) return <p>An error occurred.</p>;
   if (!data?.data) return <p>No data found.</p>;
 

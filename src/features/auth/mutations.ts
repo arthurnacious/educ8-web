@@ -32,7 +32,7 @@ export const useSignIn = () => {
 
   const mutation = useMutation({
     mutationFn: signIn,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["auth-user"] });
       toast({
         title: "Success!",

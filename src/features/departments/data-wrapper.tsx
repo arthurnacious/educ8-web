@@ -7,6 +7,7 @@ import CreateDepartmentModal from "./modals/creare-department-modal";
 import EditDepartmentModal from "./modals/edit-department-modal";
 import EmptyData from "@/components/empty-data";
 import { useDeleteDepartments } from "./mutations";
+import TableSkeleton from "@/components/table-skeleton";
 
 type Props = object;
 
@@ -25,8 +26,7 @@ const DataWrapper: FC<Props> = ({}) => {
   const { mutate: deleteSelctedDepartments } = useDeleteDepartments({});
   return (
     <div>
-      <div className="flex justify-between">
-        <div />
+      <div>
         <CreateDepartmentModal />
       </div>
 
@@ -35,7 +35,7 @@ const DataWrapper: FC<Props> = ({}) => {
         close={() => setEditDepartmentSlug(undefined)}
       />
 
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <TableSkeleton className="mt-5" />}
       {isError && <p>An error occurred.</p>}
 
       {departments?.data && departments.data.length === 0 && (

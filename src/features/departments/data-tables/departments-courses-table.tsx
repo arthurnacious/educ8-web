@@ -6,6 +6,7 @@ import { columns } from "../columns/departments-courses-columns";
 import { useGetDepartmentBySlug } from "../queries";
 import { cn } from "@/lib/utils";
 import { useDeleteCourses } from "@/features/courses/mutations";
+import TableSkeleton from "@/components/table-skeleton";
 
 interface Props {
   slug: string;
@@ -15,7 +16,7 @@ const DepartmentsCoursesTable: FC<Props> = ({ slug }) => {
   const { data, isLoading, isError } = useGetDepartmentBySlug(slug);
   const { mutate: deleteCourses } = useDeleteCourses({ slug });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <TableSkeleton className="mt-5" rows={11} />;
   if (isError) return <p>An error occurred.</p>;
   if (!data?.data) return <p>No data found.</p>;
 

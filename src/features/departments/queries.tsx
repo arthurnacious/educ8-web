@@ -11,7 +11,7 @@ import { useFetchClient } from "@/lib/fetch-client";
 // }
 
 export function useGetAllDepartments() {
-  const fetchClient = useFetchClient();
+  const { fetchClient, isAuthenticated } = useFetchClient();
   const getAllDepartments = async () => {
     const data = await fetchClient(`${api_url}/departments`).then((res) =>
       res.json()
@@ -23,15 +23,17 @@ export function useGetAllDepartments() {
   return useQuery({
     queryKey: ["departments"],
     queryFn: getAllDepartments,
+    enabled: isAuthenticated,
   });
 }
 
 export function useGetDepartmentBySlug(slug: string) {
-  const getAllDepartments = async (): Promise<{
+  const { fetchClient, isAuthenticated } = useFetchClient();
+  const getDepartmentBySlug = async (): Promise<{
     data: GetDepartmentBySlugType;
   }> => {
-    const data = await fetch(`${api_url}/departments/${slug}`).then((res) =>
-      res.json()
+    const data = await fetchClient(`${api_url}/departments/${slug}`).then(
+      (res) => res.json()
     );
 
     return data;
@@ -39,7 +41,7 @@ export function useGetDepartmentBySlug(slug: string) {
 
   return useQuery({
     queryKey: ["departments", slug],
-    queryFn: getAllDepartments,
-    enabled: !!slug,
+    queryFn: getDepartmentBySlug,
+    enabled: !!slug && isAuthenticated,
   });
 }

@@ -101,7 +101,7 @@ export const columns = ({ onEditClick }: Props): ColumnDef<Department>[] => {
     },
     {
       accessorKey: "action",
-      header: () => <div className="text-right">Action</div>,
+      header: () => <div className="text-left">Actions</div>,
       cell: ({ row: { original } }) => (
         <Actions slug={original.slug} onEditClick={onEditClick} />
       ),
