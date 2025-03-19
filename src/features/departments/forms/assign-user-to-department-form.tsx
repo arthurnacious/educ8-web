@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { FC } from "react";
-import { departmentUserRole } from "@/types/roles";
+import { departmentRole } from "@/types/roles";
 import { useGetAllUsers } from "@/features/users/queries";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,13 +30,13 @@ interface Props {
   onSuccess?: () => void;
 }
 
-const roles = Object.values(departmentUserRole);
+const roles = Object.values(departmentRole);
 
 const formSchema = z.object({
   userId: z.string().min(1, {
     message: "User Must be selected",
   }),
-  role: z.nativeEnum(departmentUserRole).default(roles[0]),
+  role: z.nativeEnum(departmentRole).default(roles[0]),
 });
 
 const AssignUserToDepartmentForm: FC<Props> = ({ slug, onSuccess }) => {

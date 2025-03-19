@@ -5,7 +5,7 @@ export enum userRole {
   STUDENT = "Student",
 }
 
-export enum departmentUserRole {
+export enum departmentRole {
   LECTURER = "Lecturer",
   LEADER = "Leader",
   STUDENT = "Student", //might use this later. not too sure

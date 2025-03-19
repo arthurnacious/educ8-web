@@ -1,6 +1,6 @@
 import { useToast } from "@/hooks/use-toast";
 import { api_url } from "@/lib/config";
-import { departmentUserRole } from "@/types/roles";
+import { departmentRole } from "@/types/roles";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type CreateProps = {
@@ -168,7 +168,7 @@ export const useAssignUserToDepartment = ({
   }: {
     userId: string;
     departmentId: string;
-    role: departmentUserRole;
+    role: departmentRole;
   }) => {
     const response = await fetch(`${api_url}/departments/members`, {
       method: "POST",

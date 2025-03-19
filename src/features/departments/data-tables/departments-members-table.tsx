@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FC, useState } from "react";
-import { departmentUserRole } from "@/types/roles";
+import { departmentRole } from "@/types/roles";
 import { DataTable } from "@/components/data-table";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { columns } from "../columns/departments-members-columns";
@@ -16,8 +16,8 @@ interface Props {
 }
 
 const DepartmentsMembersTable: FC<Props> = ({ slug }) => {
-  const [activeRole, setActiveRole] = useState<departmentUserRole>(
-    departmentUserRole.LECTURER
+  const [activeRole, setActiveRole] = useState<departmentRole>(
+    departmentRole.LECTURER
   );
 
   const { data, isLoading, isError, refetch } = useGetDepartmentBySlug(slug);
@@ -35,10 +35,10 @@ const DepartmentsMembersTable: FC<Props> = ({ slug }) => {
     <div className="space-y-4 mt-5">
       <Tabs
         value={activeRole}
-        onValueChange={(value) => setActiveRole(value as departmentUserRole)}
+        onValueChange={(value) => setActiveRole(value as departmentRole)}
       >
         <TabsList className="flex space-x-2">
-          {Object.values(departmentUserRole).map((role) => (
+          {Object.values(departmentRole).map((role) => (
             <TabsTrigger key={role} value={role}>
               {role}s
             </TabsTrigger>
@@ -51,7 +51,7 @@ const DepartmentsMembersTable: FC<Props> = ({ slug }) => {
             </h2>
           </EmptyData>
         ) : (
-          Object.values(departmentUserRole).map((role) => (
+          Object.values(departmentRole).map((role) => (
             <TabsContent key={role} value={role}>
               <DataTable
                 defaultSortingColumn="name"
