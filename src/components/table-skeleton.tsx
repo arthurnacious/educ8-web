@@ -5,31 +5,26 @@ import { FC } from "react";
 interface Props {
   className?: string;
   rows?: number;
+  cols?: number;
 }
 
-const TableSkeleton: FC<Props> = ({ className, rows = 10 }) => {
+const TableSkeleton: FC<Props> = ({ className, rows = 10, cols = 6 }) => {
   return (
     <div className={cn("w-full overflow-hidden border rounded-lg", className)}>
       {/* Table Header */}
       <div className="grid grid-cols-6 p-3 bg-muted text-sm font-semibold">
-        <Skeleton className="h-4 w-1/2" />
-        <Skeleton className="h-4 w-1/4" />
-        <Skeleton className="h-4 w-1/4" />
-        <Skeleton className="h-4 w-1/4" />
-        <Skeleton className="h-4 w-1/4" />
-        <Skeleton className="h-4 w-1/6" />
+        {Array.from({ length: cols }).map((_, i) => (
+          <Skeleton key={i} className="h-4 w-1/4" />
+        ))}
       </div>
 
       {/* Table Body */}
       <div className="divide-y">
         {Array.from({ length: rows }).map((_, i) => (
           <div key={i} className="grid grid-cols-6 p-3">
-            <Skeleton className="h-4 w-3/4" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-4 w-1/4" />
+            {Array.from({ length: cols }).map((_, i) => (
+              <Skeleton key={i} className="h-4 w-3/4" />
+            ))}
           </div>
         ))}
       </div>
