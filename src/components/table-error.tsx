@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
 import { AlertTriangle } from "lucide-react";
 import { FC } from "react";
 import { Button } from "./ui/button";
