@@ -1,5 +1,6 @@
 import { useToast } from "@/hooks/use-toast";
 import { api_url } from "@/lib/config";
+import { useFetchClient } from "@/lib/fetch-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useDeleteCourses = ({
@@ -9,15 +10,13 @@ export const useDeleteCourses = ({
   onSuccess?: () => void;
   slug?: string;
 }) => {
+  const { fetchClient } = useFetchClient();
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const deletCourses = async ({ idsArray }: { idsArray: string[] }) => {
-    const response = await fetch(`${api_url}/courses/multi-delete`, {
+    const response = await fetchClient(`${api_url}/courses/multi-delete`, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({ idsArray }),
     });
 

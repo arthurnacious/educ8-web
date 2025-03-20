@@ -30,6 +30,7 @@ const DataWrapper: FC<Props> = ({}) => {
     refetch,
   } = useGetAllDepartments();
   const { mutate: deleteSelctedDepartments } = useDeleteDepartments({});
+
   return (
     <div>
       <div>

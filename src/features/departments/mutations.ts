@@ -1,5 +1,6 @@
 import { useToast } from "@/hooks/use-toast";
 import { api_url } from "@/lib/config";
+import { useFetchClient } from "@/lib/fetch-client";
 import { departmentRole } from "@/types/roles";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -19,14 +20,12 @@ type UpdateProps = {
 
 export const useCreateDepartment = ({ setOpen }: CreateProps) => {
   const queryClient = useQueryClient();
+  const { fetchClient } = useFetchClient();
   const { toast } = useToast();
 
   const createDepartment = async ({ name }: { name: string }) => {
-    const response = await fetch(`${api_url}/departments`, {
+    const response = await fetchClient(`${api_url}/departments`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({ name }),
     });
 
@@ -65,15 +64,13 @@ export const useDeleteDepartments = ({
 }: {
   onSucces?: () => void;
 }) => {
+  const { fetchClient } = useFetchClient();
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const deleteDepartment = async ({ ids }: { ids: string[] }) => {
-    const response = await fetch(`${api_url}/departments`, {
+    const response = await fetchClient(`${api_url}/departments`, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({ ids }),
     });
 
@@ -111,15 +108,13 @@ export const useUpdateDepartment = ({
   onSuccessCallback,
   slug,
 }: UpdateProps) => {
+  const { fetchClient } = useFetchClient();
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const createDepartment = async ({ name }: { name: string }) => {
-    const response = await fetch(`${api_url}/departments/${slug}`, {
+    const response = await fetchClient(`${api_url}/departments/${slug}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({ name }),
     });
 
@@ -158,6 +153,7 @@ export const useAssignUserToDepartment = ({
   onSuccess: callback,
   slug,
 }: AssingUserToDepartmentProps) => {
+  const { fetchClient } = useFetchClient();
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -170,11 +166,8 @@ export const useAssignUserToDepartment = ({
     departmentId: string;
     role: departmentRole;
   }) => {
-    const response = await fetch(`${api_url}/departments/members`, {
+    const response = await fetchClient(`${api_url}/departments/members`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({ userId, departmentId, role }),
     });
 
@@ -214,6 +207,7 @@ export const useUnassignedMembersWithIds = ({
   onSuccess: callback,
   slug,
 }: AssingUserToDepartmentProps) => {
+  const { fetchClient } = useFetchClient();
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -222,11 +216,8 @@ export const useUnassignedMembersWithIds = ({
   }: {
     idObject: { userId: string; departmentId: string }[];
   }) => {
-    const response = await fetch(`${api_url}/departments/members`, {
+    const response = await fetchClient(`${api_url}/departments/members`, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({ idObject }),
     });
 
