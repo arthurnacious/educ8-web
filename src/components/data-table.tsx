@@ -149,20 +149,20 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            disabled={
-              table.getFilteredSelectedRowModel().rows.length === 0 &&
-              !deleteIsDisabled
-            }
-            onClick={
-              onDelete && deleteRowsData<TData>(confirm, onDelete, table)
-            }
-          >
-            Delete {table.getFilteredSelectedRowModel().rows.length}
-          </Button>
-        </div>
+        {onDelete && (
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              disabled={
+                table.getFilteredSelectedRowModel().rows.length === 0 &&
+                !deleteIsDisabled
+              }
+              onClick={deleteRowsData<TData>(confirm, onDelete, table)}
+            >
+              Delete {table.getFilteredSelectedRowModel().rows.length}
+            </Button>
+          </div>
+        )}
       </div>
       <div className="rounded-md border">
         <Table>

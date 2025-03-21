@@ -1,8 +1,9 @@
 "use client";
 import { Tabs, TabsList } from "@/components/ui/tabs";
-import PersonalPresentedClassesTable from "@/features/personal/data-tables/personal-presented-class-table";
-import { TabsContent, TabsTrigger } from "@radix-ui/react-tabs";
-import React from "react";
+import { TabsContent, TabsTrigger } from "@/components/ui/tabs";
+import PersonalPresentedClassesTable from "@/features/personal/data-tables/personal-presented-classes-table";
+import PersonalEnrolledClassesTable from "@/features/personal/data-tables/personal-enrolled-classes-table";
+import PersonalDepartmentClassesTable from "@/features/personal/data-tables/personal-department-classes-table";
 
 const PersonalClassesTabs = [
   {
@@ -13,18 +14,18 @@ const PersonalClassesTabs = [
   {
     tab: "enrolledClasses",
     tag: "Enrolled",
-    content: <div>Enrolled Classes Here</div>,
+    content: <PersonalEnrolledClassesTable />,
   },
   {
     tab: "departmentClasses",
-    tag: "Department Classes",
-    content: <div>Department Classes Here</div>,
+    tag: "Department",
+    content: <PersonalDepartmentClassesTable />,
   },
 ];
 
 const ClientWrapper = () => {
   return (
-    <Tabs value={"presentedClasses"}>
+    <Tabs defaultValue={PersonalClassesTabs.at(0)?.tab || "presentedClasses"}>
       <TabsList className="flex space-x-2">
         {PersonalClassesTabs.map(({ tab, tag }) => (
           <TabsTrigger key={`trigger-${tab}`} value={tab}>

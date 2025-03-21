@@ -6,12 +6,30 @@ export function useGetPersonalClasses() {
   const { fetchClient, isAuthenticated } = useFetchClient();
   const getPersonalClasses = async (): Promise<{
     data: {
-      presentedClasses: { id: string; courseName: string; createdAt: Date }[];
-      enrolledClasses: { id: string; courseName: string; createdAt: Date }[];
+      presentedClasses: {
+        id: string;
+        courseName: string;
+        departmentName: string;
+        createdAt: Date;
+      }[];
+      enrolledClasses: {
+        id: string;
+        courseName: string;
+        departmentName: string;
+        lecturer: {
+          name: string;
+          image?: string;
+        };
+        createdAt: Date;
+      }[];
       departmentClasses: {
         id: string;
         courseName: string;
         departmentName: string;
+        lecturer: {
+          name: string;
+          image?: string;
+        };
         createdAt: Date;
       }[];
     };

@@ -2,20 +2,22 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { ArrowUpDown, Link2 } from "lucide-react";
+import { ArrowUpDown, Link2, UserCircle } from "lucide-react";
 import dayjs from "dayjs";
+import Image from "next/image";
 import Link from "next/link";
 
 type Props = object;
 
-interface PresentedClasses {
+interface EnrolledClasses {
   id: string;
   courseName: string;
   departmentName: string;
+  lecturer: { name: string; image?: string };
   createdAt: Date;
 }
 
-export const columns = ({}: Props): ColumnDef<PresentedClasses>[] => {
+export const columns = ({}: Props): ColumnDef<EnrolledClasses>[] => {
   return [
     {
       accessorKey: "courseName",
@@ -28,14 +30,43 @@ export const columns = ({}: Props): ColumnDef<PresentedClasses>[] => {
           <ArrowUpDown className="ml-2 size-4" />
         </Button>
       ),
-      cell: ({ row: { original } }) => (
+    },
+    {
+      id: "lecturer",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Lecturer Name
+          <ArrowUpDown className="ml-2 size-4" />
+        </Button>
+      ),
+      cell: ({
+        row: {
+          original: { lecturer: { name, image } = {} },
+        },
+      }) => (
         <div className="flex items-center gap-2">
-          <div className="text-sm font-medium">{original.courseName}</div>
+          <div className="text-sm font-medium flex justify-center items-center gap-2">
+            {name}
+            {image ? (
+              <Image
+                src={image}
+                width={10}
+                height={10}
+                alt="Lecturer"
+                className="size-5 rounded-full"
+              />
+            ) : (
+              <UserCircle className="size-5 text-green-800" />
+            )}
+          </div>
         </div>
       ),
     },
     {
-      accessorKey: "departmentName",
+      id: "departmentName",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -54,7 +85,7 @@ export const columns = ({}: Props): ColumnDef<PresentedClasses>[] => {
       ),
     },
     {
-      accessorKey: "createdAt",
+      id: "createdAt",
       header: ({ column }) => (
         <Button
           variant="ghost"

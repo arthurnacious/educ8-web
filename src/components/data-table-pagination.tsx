@@ -111,6 +111,11 @@ const DataTablePagination = <TData,>({
           <Select
             value={String(table.getState().pagination.pageSize)}
             onValueChange={(value) => table.setPageSize(Number(value))}
+            disabled={
+              table.getFilteredRowModel().rows.length === 0 ||
+              table.getFilteredRowModel().rows.length <
+                table.getState().pagination.pageSize
+            }
           >
             <SelectTrigger className="w-[80px]">
               <SelectValue />

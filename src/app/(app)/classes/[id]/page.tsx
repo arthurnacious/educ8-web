@@ -2,7 +2,7 @@ import PageContainer from "@/components/app/page-container";
 import React, { FC } from "react";
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ id: string }>;
 }
 
 const breadcrumbs = [
@@ -15,13 +15,13 @@ const breadcrumbs = [
     label: "This class",
   },
 ];
-const ShowDepartment: FC<Props> = async ({ params }) => {
-  const { slug } = await params;
+const ShowClass: FC<Props> = async ({ params }) => {
+  const { id } = await params;
   return (
     <PageContainer breadcrumbs={breadcrumbs}>
-      <h2>Class with slug {slug}</h2>
+      <h2>Class with an {id}</h2>
     </PageContainer>
   );
 };
 
-export default ShowDepartment;
+export default ShowClass;
