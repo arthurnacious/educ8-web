@@ -46,7 +46,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   defaultSortingColumn: string;
   filterColumns?: FilterColumn[];
-  onDelete: (ROWS: Row<TData>[]) => void;
+  onDelete?: (ROWS: Row<TData>[]) => void;
   deleteIsDisabled?: boolean;
 }
 
@@ -156,7 +156,9 @@ export function DataTable<TData, TValue>({
               table.getFilteredSelectedRowModel().rows.length === 0 &&
               !deleteIsDisabled
             }
-            onClick={deleteRowsData<TData>(confirm, onDelete, table)}
+            onClick={
+              onDelete && deleteRowsData<TData>(confirm, onDelete, table)
+            }
           >
             Delete {table.getFilteredSelectedRowModel().rows.length}
           </Button>

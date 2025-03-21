@@ -11,6 +11,8 @@ import {
   HelpCircle,
   Menu,
   BookA,
+  Logs,
+  Presentation,
 } from "lucide-react";
 
 import { Home } from "lucide-react";
@@ -28,6 +30,7 @@ const MenuItems = [
       { title: "Courses", href: "/courses", icon: BookA },
       { title: "Roster", href: "rosters", icon: Folder },
       { title: "Users", href: "users", icon: Users2 },
+      { title: "Audits", href: "audits", icon: Logs },
     ],
   },
 
@@ -37,6 +40,14 @@ const MenuItems = [
       { title: "All Payments", href: "/payments", icon: Wallet },
       { title: "Outstanding", href: "/payments/outstanding", icon: CreditCard },
       { title: "Completed", href: "/payments/completed", icon: Receipt },
+    ],
+  },
+  {
+    topic: "Personal",
+    items: [
+      { title: "Classes", href: "/personal/classes", icon: Presentation },
+      { title: "Departments", href: "/personal/departments", icon: Building2 },
+      { title: "Depandants", href: "/personal/dependants", icon: Users2 },
     ],
   },
 ];
