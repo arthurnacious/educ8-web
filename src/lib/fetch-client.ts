@@ -21,8 +21,6 @@ export function useFetchClient() {
         headers.set("Authorization", `Bearer ${session.user.accessToken}`);
       }
 
-      console.log("Headers:", Object.fromEntries(headers.entries()));
-
       return await fetch(url, { ...restOptions, headers });
     },
     [session]

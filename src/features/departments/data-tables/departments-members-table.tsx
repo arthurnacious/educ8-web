@@ -56,12 +56,14 @@ const DepartmentsMembersTable: FC<Props> = ({ slug }) => {
               <DataTable
                 defaultSortingColumn="name"
                 columns={columns({})}
-                onDelete={(rows) => {
-                  const ids = rows.map(({ original }) => ({
-                    userId: original.userId,
-                    departmentId: original.departmentId,
-                  }));
-                  unasignTheseIds({ idObject: ids });
+                delete={{
+                  onDelete: (rows) => {
+                    const ids = rows.map(({ original }) => ({
+                      userId: original.userId,
+                      departmentId: original.departmentId,
+                    }));
+                    unasignTheseIds({ idObject: ids });
+                  },
                 }}
                 data={filteredMembers}
               />

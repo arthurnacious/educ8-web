@@ -38,9 +38,11 @@ const DepartmentsCoursesTable: FC<Props> = ({ slug }) => {
       <DataTable
         defaultSortingColumn="name"
         columns={columns({})}
-        onDelete={(rows) => {
-          const idsArray = rows.map(({ original: { id } }) => id);
-          deleteCourses({ idsArray });
+        delete={{
+          onDelete: (rows) => {
+            const idsArray = rows.map(({ original: { id } }) => id);
+            deleteCourses({ idsArray });
+          },
         }}
         data={courses}
       />

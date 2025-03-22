@@ -7,7 +7,7 @@ const breadcrumbs = [
     label: "Classes",
   },
 ];
-const ClassesPage = () => {
+const Dashboard = () => {
   return (
     <PageContainer breadcrumbs={breadcrumbs}>
       <h2>List of clases goes here</h2>
@@ -15,4 +15,4 @@ const ClassesPage = () => {
   );
 };
 
-export default ClassesPage;
+export default Dashboard;

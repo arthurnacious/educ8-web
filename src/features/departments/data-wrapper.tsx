@@ -57,9 +57,11 @@ const DataWrapper: FC<Props> = ({}) => {
           columns={columns({
             onEditClick: setEditDepartmentSlug,
           })}
-          onDelete={(rows) => {
-            const ids = rows.map(({ original }) => original.id);
-            deleteSelctedDepartments({ ids });
+          delete={{
+            onDelete: (rows) => {
+              const ids = rows.map(({ original }) => original.id);
+              deleteSelctedDepartments({ ids });
+            },
           }}
           data={departments.data}
           defaultSortingColumn="name"

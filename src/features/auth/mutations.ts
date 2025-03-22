@@ -17,7 +17,6 @@ export const useSignIn = () => {
       },
       body: JSON.stringify(credentials),
     });
-    console.log(response);
 
     if (response.status === 401) {
       throw new Error("Failed to login");

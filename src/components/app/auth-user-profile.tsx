@@ -1,6 +1,7 @@
 import { LogOut, MoveUpRight, Settings, FileText } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 import { FC } from "react";
 
 interface MenuItem {
@@ -92,6 +93,7 @@ const AuthUserProfile: FC<Props> = ({ name, role, avatar }) => {
               className="w-full flex items-center justify-between p-2 
                                 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 
                                 rounded-lg transition-colors duration-200"
+              onClick={() => signOut()}
             >
               <div className="flex items-center gap-2">
                 <LogOut className="w-4 h-4" />

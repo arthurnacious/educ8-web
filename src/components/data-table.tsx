@@ -44,10 +44,13 @@ interface FilterColumn {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  defaultSortingColumn: string;
+  defaultSortingColumn?: string;
   filterColumns?: FilterColumn[];
-  onDelete?: (ROWS: Row<TData>[]) => void;
-  deleteIsDisabled?: boolean;
+  delete?: {
+    onDelete?: (ROWS: Row<TData>[]) => void;
+    deleteIsDisabled?: boolean;
+    btnText?: string;
+  };
 }
 
 function deleteRowsData<TData>(
@@ -69,8 +72,7 @@ export function DataTable<TData, TValue>({
   data,
   defaultSortingColumn,
   filterColumns,
-  onDelete,
-  deleteIsDisabled = false,
+  delete: deleteOptions,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [sortingColumn, setSortingColumn] = useState<string | undefined>(
@@ -116,50 +118,59 @@ export function DataTable<TData, TValue>({
     <div>
       <ConfirmActionDialog />
       <div className="flex items-center justify-between py-4 gap-2">
-        <div className="flex items-center gap-2">
-          {filterColumns && (
-            <Select onValueChange={channgeFilterColumn}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Filter" />
-              </SelectTrigger>
-              <SelectContent>
-                {filterColumns.map(({ label, value }) => (
-                  <SelectItem key={label} value={value}>
-                    {toNormalCase(value)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
+        {filterColumns && defaultSortingColumn && (
+          <div className="flex items-center gap-2">
+            {filterColumns && (
+              <Select onValueChange={channgeFilterColumn}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Filter" />
+                </SelectTrigger>
+                <SelectContent>
+                  {filterColumns.map(({ label, value }) => (
+                    <SelectItem key={label} value={value}>
+                      {toNormalCase(value)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
 
-          <Input
-            placeholder={`Filter ${toNormalCase(
-              sortingColumn ?? defaultSortingColumn
-            )}...`}
-            value={
-              (table
-                .getColumn(sortingColumn ?? defaultSortingColumn)
-                ?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table
-                .getColumn(sortingColumn ?? defaultSortingColumn)
-                ?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
-        </div>
-        {onDelete && (
+            {defaultSortingColumn && (
+              <Input
+                placeholder={`Filter ${toNormalCase(
+                  sortingColumn ?? defaultSortingColumn
+                )}...`}
+                value={
+                  (table
+                    .getColumn(sortingColumn ?? defaultSortingColumn)
+                    ?.getFilterValue() as string) ?? ""
+                }
+                onChange={(event) =>
+                  table
+                    .getColumn(sortingColumn ?? defaultSortingColumn)
+                    ?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
+              />
+            )}
+          </div>
+        )}
+        {deleteOptions?.onDelete && (
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
               disabled={
                 table.getFilteredSelectedRowModel().rows.length === 0 &&
-                !deleteIsDisabled
+                !deleteOptions?.deleteIsDisabled
               }
-              onClick={deleteRowsData<TData>(confirm, onDelete, table)}
+              onClick={deleteRowsData<TData>(
+                confirm,
+                deleteOptions?.onDelete,
+                table
+              )}
             >
-              Delete {table.getFilteredSelectedRowModel().rows.length}
+              {deleteOptions.btnText ?? "Delete"}{" "}
+              {table.getFilteredSelectedRowModel().rows.length}
             </Button>
           </div>
         )}

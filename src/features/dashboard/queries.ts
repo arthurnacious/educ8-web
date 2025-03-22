@@ -4,7 +4,7 @@ import { useFetchClient } from "@/lib/fetch-client";
 
 export function useGetAuditLogs() {
   const { fetchClient, isAuthenticated } = useFetchClient();
-  const useGetAuditLogs = async () => {
+  const getAuditLogs = async () => {
     const data = await fetchClient(`${api_url}/audit-logs`).then((res) =>
       res.json()
     );
@@ -14,7 +14,7 @@ export function useGetAuditLogs() {
 
   return useQuery({
     queryKey: ["audit-logs"],
-    queryFn: useGetAuditLogs,
+    queryFn: getAuditLogs,
     enabled: isAuthenticated,
   });
 }

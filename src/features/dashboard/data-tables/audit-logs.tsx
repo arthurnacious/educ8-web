@@ -16,14 +16,14 @@ const AuditLogsTable: FC<Props> = ({}) => {
     return <TableSkeleton className="mt-5" rows={11} />;
   if (isError) return <TableError className="mt-5" onRetry={() => refetch} />;
 
-  const courses = data.data;
+  const logs = data.data;
 
   return (
     <div className="space-y-4 mt-5">
       <DataTable
         defaultSortingColumn="user"
         columns={columns({})}
-        data={courses}
+        data={logs}
       />
     </div>
   );
