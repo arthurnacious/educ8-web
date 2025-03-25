@@ -17,8 +17,8 @@ export function useFetchClient() {
         headers.set("Content-Type", "application/json");
       }
 
-      if (session?.user.accessToken && !skipAuth) {
-        headers.set("Authorization", `Bearer ${session.user.accessToken}`);
+      if (session?.user.tokens.accessToken && !skipAuth) {
+        headers.set("Authorization", `${session.user.tokens.accessToken}`);
       }
 
       return await fetch(url, { ...restOptions, headers });

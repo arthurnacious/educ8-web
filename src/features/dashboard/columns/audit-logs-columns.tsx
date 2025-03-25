@@ -49,7 +49,6 @@ export const columns = ({}: Props): ColumnDef<AuditLogs>[] => {
         );
       },
       cell: ({ row: { original } }) => {
-        console.log(original);
         return (
           <span className="capitalize">
             {original.action} {original.model && "a"} {original.model} on{" "}

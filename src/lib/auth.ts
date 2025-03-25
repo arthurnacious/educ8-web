@@ -1,6 +1,5 @@
 import { login, getRefreshToken } from "@/actions/user-auth";
 import NextAuth, { NextAuthConfig, User } from "next-auth";
-import { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 
 export const authOptions = {
@@ -15,7 +14,6 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          // Make sure credentials exist before accessing properties
           if (!credentials?.email || !credentials?.password) {
             return null;
           }
@@ -25,14 +23,20 @@ export const authOptions = {
             password: credentials.password as string,
           });
 
-          // Check if res has the expected structure
-          if (!res || !res.user || !res.accessToken) {
+          if (
+            !res ||
+            !res.user ||
+            !res.tokens.accessToken ||
+            !res.tokens.refreshToken
+          ) {
             console.error("Invalid response structure:", res);
             return null;
           }
-          const { user: dbUser, accessToken } = res;
 
-          console.log("Successfully logged in:", res);
+          const {
+            user: dbUser,
+            tokens: { accessToken, refreshToken },
+          } = res;
 
           // Create a properly typed user object
           const user: User = {
@@ -40,11 +44,16 @@ export const authOptions = {
             name: dbUser.name,
             email: dbUser.email,
             image: dbUser.image,
-            role: dbUser.role?.name || "User",
-            accessToken: accessToken,
+            role: dbUser.role,
+            permissions: dbUser.permissions,
+            tokens: {
+              expiresIn: dbUser.expiresIn,
+              accessToken,
+              refreshToken,
+            },
+            // Store refreshToken in the user object
           };
 
-          console.log("Authorized user:", user);
           return user;
         } catch (error) {
           console.error("Authorization error:", error);
@@ -54,31 +63,56 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      return url.startsWith(baseUrl)
-        ? Promise.resolve(url)
-        : Promise.resolve(baseUrl);
-    },
     async jwt({ token, user }) {
+      // If it's the first time logging in, store tokens
       if (user) {
+        const { tokens } = user;
         token.id = user.id as string;
         token.role = user.role;
-        token.accessToken = user.accessToken;
-        token.exp = Math.floor(Date.now() / 1000) + 60; // 1 minute from now,
+        token.accessToken = tokens.accessToken;
+        token.refreshToken = tokens.refreshToken;
+        token.exp = tokens.expiresIn; // Set expiry to 10 minutes from now
+        return token;
       }
 
-      const payload =
-        token.exp && Date.now() < token.exp * 1000
-          ? token
-          : await refreshAccessToken(token);
+      // Check if the token has expired
+      const tokenIsExpired = token.exp && Date.now() >= token.exp * 1000;
+      if (!tokenIsExpired) {
+        return token; // Token is still valid
+      }
 
-      return payload;
+      // Token expired, refresh it
+      try {
+        console.log("i got here pops");
+        const newTokens = await getRefreshToken(token.refreshToken as string);
+
+        if (!newTokens || !newTokens.accessToken || !newTokens.refreshToken) {
+          console.error("Failed to refresh token", newTokens);
+          return { ...token, error: "RefreshAccessTokenError" };
+        }
+
+        // Update the token with new values
+        return {
+          ...token,
+          accessToken: newTokens.accessToken,
+          refreshToken: newTokens.refreshToken,
+          exp: Math.floor(Date.now() / 1000) + 60 * 10, // Extend expiry
+        };
+      } catch (error) {
+        console.error("Error refreshing token:", error);
+        return { ...token, error: "RefreshAccessTokenError" };
+      }
     },
+
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
-        session.user.accessToken = token.accessToken as string;
+        session.user.tokens = {
+          expiresIn: token.expiresIn as number,
+          accessToken: token.accessToken as string,
+          refreshToken: token.refreshToken as string,
+        };
       }
       return session;
     },
@@ -86,33 +120,3 @@ export const authOptions = {
 } satisfies NextAuthConfig;
 
 export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);
-
-async function refreshAccessToken(token: JWT): Promise<JWT> {
-  try {
-    const res = await getRefreshToken();
-
-    // if (!res || !res.user || !res.accessToken) {
-    //   console.error("Invalid response structure:", res);
-    //   return redirect("/login");
-    // }
-
-    const { user: dbUser, accessToken } = res;
-
-    // Update token with fresh data
-    return {
-      ...token,
-      id: dbUser.id,
-      name: dbUser.name,
-      email: dbUser.email,
-      role: dbUser.role?.name || "User",
-      accessToken: accessToken,
-      exp: Math.floor(Date.now() / 1000) + 60, // 1 minute from now
-    };
-  } catch (error) {
-    console.log(error);
-    return {
-      ...token,
-      error: "RefreshAccessTokenError",
-    };
-  }
-}

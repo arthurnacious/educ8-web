@@ -56,6 +56,9 @@ export const columns = ({ onEditClick }: Props): ColumnDef<Department>[] => {
           </Button>
         );
       },
+      cell: ({ row: { original } }) => (
+        <span className="text-nowrap">{original.name}</span>
+      ),
     },
     {
       accessorKey: "coursesCount",

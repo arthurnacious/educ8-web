@@ -14,10 +14,9 @@ export interface CourseToDepartment {
 export interface User {
   id: string;
   name: string;
-  email?: string;
-  emailVerified?: Date;
-  passwordHash?: string;
-  roleId?: string;
+  email: string;
+  emailVerified?: boolean;
+  roleId: string;
   image?: string;
 }
 
