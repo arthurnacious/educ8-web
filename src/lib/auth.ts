@@ -76,14 +76,13 @@ export const authOptions = {
       }
 
       // Check if the token has expired
-      const tokenIsExpired = token.exp && Date.now() >= token.exp * 1000;
+      const tokenIsExpired = Math.floor(Date.now() * 1000) > (token.exp ?? 1);
       if (!tokenIsExpired) {
         return token; // Token is still valid
       }
 
       // Token expired, refresh it
       try {
-        console.log("i got here pops");
         const newTokens = await getRefreshToken(token.refreshToken as string);
 
         if (!newTokens || !newTokens.accessToken || !newTokens.refreshToken) {
