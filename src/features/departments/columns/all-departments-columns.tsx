@@ -16,7 +16,7 @@ interface Department {
   name: string;
   lecturersCount: number;
   leadersCount: number;
-  coursesCount: number;
+  subjectsCount: number;
 }
 
 export const columns = ({ onEditClick }: Props): ColumnDef<Department>[] => {
@@ -61,14 +61,14 @@ export const columns = ({ onEditClick }: Props): ColumnDef<Department>[] => {
       ),
     },
     {
-      accessorKey: "coursesCount",
+      accessorKey: "subjectsCount",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Courses
+            Subjects
             <ArrowUpDown className="ml-2 size-4" />
           </Button>
         );

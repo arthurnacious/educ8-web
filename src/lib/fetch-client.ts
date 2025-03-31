@@ -18,6 +18,7 @@ export function useFetchClient() {
       }
 
       if (session?.user.tokens.accessToken && !skipAuth) {
+        console.log({ accessToken: session.user.tokens.accessToken });
         headers.set("Authorization", `${session.user.tokens.accessToken}`);
       }
 

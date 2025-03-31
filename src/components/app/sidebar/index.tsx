@@ -13,52 +13,131 @@ import {
   BookA,
   Logs,
   Presentation,
+  LucideIcon,
 } from "lucide-react";
 
 import { Home } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import NavItem from "./nav-item";
 import Logo from "@/components/logo";
+import { useSession } from "next-auth/react";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const MenuItems = [
+// Define an interface for menu items with optional permission
+interface MenuItem {
+  title: string;
+  href: string;
+  icon: LucideIcon;
+  permission?: string;
+}
+
+interface MenuSection {
+  topic: string;
+  items: MenuItem[];
+}
+
+const MenuItems: MenuSection[] = [
   {
     topic: "Overview",
     items: [
       { title: "Dashboard", href: "/", icon: Home },
-      { title: "Departments", href: "/departments", icon: Building2 },
-      { title: "Courses", href: "/courses", icon: BookA },
-      { title: "Roster", href: "rosters", icon: Folder },
-      { title: "Users", href: "users", icon: Users2 },
-      { title: "Audits", href: "audits", icon: Logs },
+      {
+        title: "Departments",
+        href: "/departments",
+        icon: Building2,
+        permission: "can_view_departments",
+      },
+      {
+        title: "Subjects",
+        href: "/subjects",
+        icon: BookA,
+        permission: "can_view_subjects",
+      },
+      {
+        title: "Courses",
+        href: "courses",
+        icon: Folder,
+        permission: "can_view_courses",
+      },
+      {
+        title: "Users",
+        href: "users",
+        icon: Users2,
+        permission: "can_view_users",
+      },
+      {
+        title: "Audits",
+        href: "audits",
+        icon: Logs,
+        permission: "can_view_audits",
+      },
     ],
   },
-
   {
     topic: "Finances",
     items: [
-      { title: "All Payments", href: "/payments", icon: Wallet },
-      { title: "Outstanding", href: "/payments/outstanding", icon: CreditCard },
-      { title: "Completed", href: "/payments/completed", icon: Receipt },
+      {
+        title: "All Payments",
+        href: "/payments",
+        icon: Wallet,
+        permission: "can_view_payments",
+      },
+      {
+        title: "Outstanding",
+        href: "/payments/outstanding",
+        icon: CreditCard,
+        permission: "can_view_outstanding_payments",
+      },
+      {
+        title: "Completed",
+        href: "/payments/completed",
+        icon: Receipt,
+        permission: "can_view_completed_payments",
+      },
     ],
   },
   {
     topic: "Personal",
     items: [
-      { title: "Classes", href: "/personal/classes", icon: Presentation },
-      { title: "Departments", href: "/personal/departments", icon: Building2 },
-      { title: "Depandants", href: "/personal/dependants", icon: Users2 },
+      {
+        title: "Courses",
+        href: "/personal/courses",
+        icon: Presentation,
+      },
+      {
+        title: "Departments",
+        href: "/personal/departments",
+        icon: Building2,
+      },
+      {
+        title: "Dependants",
+        href: "/personal/dependants",
+        icon: Users2,
+      },
     ],
   },
 ];
 
-export default function Sidebar() {
+const Sidebar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { data: session, status } = useSession();
+
+  console.log(status);
 
   function handleNavigation() {
     if (isMobileMenuOpen) return;
     setIsMobileMenuOpen(false);
   }
+
+  // Function to check if user has a specific permission
+  const hasPermission = (permission?: string) => {
+    if (!permission) return true; // Always show items without specific permission
+    if (!session?.user?.permissions) return false;
+
+    // Check if permission exists in the array
+    return session.user.permissions.includes(permission);
+  };
 
   return (
     <>
@@ -85,25 +164,48 @@ export default function Sidebar() {
 
           <div className="flex-1 overflow-y-auto py-4 px-4 border-r border-gray-200 dark:border-[#1F1F23]">
             <div className="space-y-6">
-              {MenuItems.map(({ topic, items }, tp_index) => (
-                <div key={`topic-${tp_index}`}>
-                  <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {topic}
-                  </div>
-                  <div className="space-y-1">
-                    {items.map(({ title, href, icon }, im_index) => (
-                      <NavItem
-                        href={href}
-                        icon={icon}
-                        onClick={handleNavigation}
-                        key={`item-${im_index}`}
-                      >
-                        {title}
-                      </NavItem>
-                    ))}
-                  </div>
-                </div>
-              ))}
+              {status === "loading"
+                ? Array.from({ length: 3 }, (_, i) => (
+                    <Fragment key={i}>
+                      <Skeleton className="h-6 w-16" />
+                      <div className="">
+                        {Array.from({ length: 3 }, (_, im) => (
+                          <Skeleton key={im} className="h-6 w-full mb-2" />
+                        ))}
+                      </div>
+                    </Fragment>
+                  ))
+                : MenuItems.map(({ topic, items }, tp_index) => {
+                    // Filter items based on permissions
+                    const filteredItems = items.filter((item) =>
+                      hasPermission(item.permission)
+                    );
+
+                    // Only render the section if there are visible items
+                    if (filteredItems.length === 0) return null;
+
+                    return (
+                      <div key={`topic-${tp_index}`}>
+                        <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                          {topic}
+                        </div>
+                        <div className="space-y-1">
+                          {filteredItems.map(
+                            ({ title, href, icon }, im_index) => (
+                              <NavItem
+                                href={href}
+                                icon={icon}
+                                onClick={handleNavigation}
+                                key={`item-${im_index}`}
+                              >
+                                {title}
+                              </NavItem>
+                            )
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
             </div>
           </div>
 
@@ -128,4 +230,6 @@ export default function Sidebar() {
       )}
     </>
   );
-}
+};
+
+export default Sidebar;

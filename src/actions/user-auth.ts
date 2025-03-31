@@ -2,7 +2,6 @@
 
 import { api_url } from "@/lib/config";
 import { User } from "next-auth";
-import { JWT } from "next-auth/jwt";
 
 interface iUser extends User {
   expiresIn: number;
@@ -38,19 +37,22 @@ export const login = async (credentials: {
 
   // ✅ Get headers from the response
   const tokens = {
-    accessToken: response.headers.get("Authorization"),
-    refreshToken: response.headers.get("X-Refresh-Token"),
+    accessToken: response.headers.get("Authorization") as string,
+    refreshToken: response.headers.get("X-Refresh-Token") as string,
   };
 
-  const data = await response.json(); // Parse JSON response
+  const data: { user: iUser } = await response.json(); // Parse JSON response
 
-  return { ...data, tokens };
+  const payload = { ...data, tokens };
+  return payload;
 };
 
-export const getRefreshToken = async (refreshToken: string): Promise<JWT> => {
+export const getRefreshToken = async (
+  refreshToken: string
+): Promise<SessionPayload> => {
   try {
-    console.log("gettting refresh token");
-    const response = await fetch(`${api_url}/auth/refresh`, {
+    // console.log("getting refresh token", refreshToken);
+    const response: Response = await fetch(`${api_url}/auth/refresh`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,13 +64,14 @@ export const getRefreshToken = async (refreshToken: string): Promise<JWT> => {
       throw new Error("Failed to refresh token");
     }
 
-    const accessToken = response.headers.get("Authorization");
-    const newRefreshToken = response.headers.get("X-Refresh-Token");
+    const tokens = {
+      accessToken: response.headers.get("Authorization") as string,
+      refreshToken: response.headers.get("X-Refresh-Token") as string,
+    };
 
-    const data = await response.json();
+    const data: { user: iUser } = await response.json();
 
-    const payload = { ...data, accessToken, refreshToken: newRefreshToken };
-    // console.log(payload);
+    const payload = { ...data, tokens };
     return payload;
   } catch (error) {
     console.error("Error refreshing token:", error);

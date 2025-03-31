@@ -33,28 +33,24 @@ export const authOptions = {
             return null;
           }
 
-          const {
-            user: dbUser,
-            tokens: { accessToken, refreshToken },
-          } = res;
+          console.log({ res });
 
           // Create a properly typed user object
-          const user: User = {
-            id: dbUser.id,
-            name: dbUser.name,
-            email: dbUser.email,
-            image: dbUser.image,
-            role: dbUser.role,
-            permissions: dbUser.permissions,
+          const auth: User = {
+            id: res.user.id,
+            name: res.user.name,
+            email: res.user.email,
+            image: res.user.image,
+            role: res.user.role,
+            permissions: res.user.permissions,
             tokens: {
-              expiresIn: dbUser.expiresIn,
-              accessToken,
-              refreshToken,
+              expiresIn: res.user.expiresIn,
+              accessToken: res.tokens.accessToken,
+              refreshToken: res.tokens.refreshToken,
             },
-            // Store refreshToken in the user object
           };
 
-          return user;
+          return auth;
         } catch (error) {
           console.error("Authorization error:", error);
           return null;
@@ -64,39 +60,55 @@ export const authOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // If it's the first time logging in, store tokens
       if (user) {
-        const { tokens } = user;
         token.id = user.id as string;
         token.role = user.role;
-        token.accessToken = tokens.accessToken;
-        token.refreshToken = tokens.refreshToken;
-        token.exp = tokens.expiresIn; // Set expiry to 10 minutes from now
+        token.accessToken = user.tokens.accessToken;
+        token.refreshToken = user.tokens.refreshToken;
+        token.expiresAt = user.tokens.expiresIn;
+        token.permissions = user.permissions;
         return token;
       }
 
+      console.log("here 1");
       // Check if the token has expired
-      const tokenIsExpired = Math.floor(Date.now() * 1000) > (token.exp ?? 1);
+      const now = Math.floor(Date.now() / 1000);
+      const tokenIsExpired = now >= token.expiresAt;
       if (!tokenIsExpired) {
         return token; // Token is still valid
       }
 
+      console.log("here 2", now);
+
       // Token expired, refresh it
       try {
-        const newTokens = await getRefreshToken(token.refreshToken as string);
+        console.log({ token });
+        const response = await getRefreshToken(token.refreshToken as string);
 
-        if (!newTokens || !newTokens.accessToken || !newTokens.refreshToken) {
-          console.error("Failed to refresh token", newTokens);
-          return { ...token, error: "RefreshAccessTokenError" };
+        if (
+          !response ||
+          !response.tokens.accessToken ||
+          !response.tokens.refreshToken
+        ) {
+          console.error("Failed to refresh token", response);
+          throw new Error("Failed to refresh token");
         }
 
         // Update the token with new values
-        return {
+        token = {
           ...token,
-          accessToken: newTokens.accessToken,
-          refreshToken: newTokens.refreshToken,
-          exp: Math.floor(Date.now() / 1000) + 60 * 10, // Extend expiry
+          id: response.user.id as string,
+          name: response.user.name,
+          email: response.user.email,
+          image: response.user.image,
+          role: response.user.role,
+          permissions: response.user.permissions,
+          accessToken: response.tokens.accessToken,
+          refreshToken: response.tokens.refreshToken,
+          expiresAt: response.user.expiresIn,
         };
+
+        return token;
       } catch (error) {
         console.error("Error refreshing token:", error);
         return { ...token, error: "RefreshAccessTokenError" };
@@ -107,6 +119,7 @@ export const authOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
+        session.user.permissions = token.permissions;
         session.user.tokens = {
           expiresIn: token.expiresIn as number,
           accessToken: token.accessToken as string,

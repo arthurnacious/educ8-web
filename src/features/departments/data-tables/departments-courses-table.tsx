@@ -5,7 +5,7 @@ import { DataTable } from "@/components/data-table";
 import { columns } from "../columns/departments-courses-columns";
 import { useGetDepartmentBySlug } from "../queries";
 import { cn } from "@/lib/utils";
-import { useDeleteCourses } from "@/features/courses/mutations";
+import { useDeleteCourses } from "@/features/subjects/mutations";
 import TableSkeleton from "@/components/table-skeleton";
 import TableError from "@/components/table-error";
 
