@@ -1,3 +1,5 @@
+import { departmentRole } from "./roles";
+
 export interface Department {
   id: string;
   name: string;
@@ -24,14 +26,18 @@ export interface GetDepartmentBySlugType extends Department {
   members: {
     departmentId: string;
     userId: string;
-    role: string;
+    departmentRoleId: string;
     user: {
       id: string;
       name: string;
       email: string;
     };
+    role: {
+      id: string;
+      name: departmentRole;
+    };
   }[];
-  courses: {
+  subjects: {
     id: string;
     name: string;
     slug: string;

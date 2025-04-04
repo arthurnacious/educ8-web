@@ -114,7 +114,7 @@ const AssignUserToDepartmentForm: FC<Props> = ({ slug, onSuccess }) => {
             variant="outline"
             disabled={isDisabled}
           >
-            Assign Role
+            Attach Member
           </Button>
         </div>
       </form>

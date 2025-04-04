@@ -118,7 +118,7 @@ export function DataTable<TData, TValue>({
     <div>
       <ConfirmActionDialog />
       <div className="flex items-center justify-between py-4 gap-2">
-        {filterColumns && defaultSortingColumn && (
+        {(filterColumns || defaultSortingColumn) && (
           <div className="flex items-center gap-2">
             {filterColumns && (
               <Select onValueChange={channgeFilterColumn}>

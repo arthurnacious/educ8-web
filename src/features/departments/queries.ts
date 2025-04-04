@@ -45,3 +45,25 @@ export function useGetDepartmentBySlug(slug: string) {
     enabled: !!slug && isAuthenticated,
   });
 }
+
+export function useGetDepartmentRoles() {
+  const { fetchClient, isAuthenticated } = useFetchClient();
+  const getDepartmentRoles = async (): Promise<{
+    data: {
+      id: string;
+      name: string;
+    }[];
+  }> => {
+    const data = await fetchClient(`${api_url}/departments/roles`).then((res) =>
+      res.json()
+    );
+
+    return data;
+  };
+
+  return useQuery({
+    queryKey: ["departments", "roles"],
+    queryFn: getDepartmentRoles,
+    enabled: isAuthenticated,
+  });
+}

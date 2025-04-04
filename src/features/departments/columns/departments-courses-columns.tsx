@@ -2,7 +2,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 
-interface Courses {
+interface Subject {
   id: string;
   name: string;
   slug: string;
@@ -11,7 +11,7 @@ interface Courses {
 
 type Props = object;
 
-export const columns = ({}: Props): ColumnDef<Courses>[] => [
+export const columns = ({}: Props): ColumnDef<Subject>[] => [
   {
     id: "select",
     header: ({ table }) => (

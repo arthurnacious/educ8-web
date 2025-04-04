@@ -5,7 +5,7 @@ import { DataTable } from "@/components/data-table";
 import { columns } from "../columns/departments-courses-columns";
 import { useGetDepartmentBySlug } from "../queries";
 import { cn } from "@/lib/utils";
-import { useDeleteCourses } from "@/features/subjects/mutations";
+import { useDeleteSubjects } from "@/features/subjects/mutations";
 import TableSkeleton from "@/components/table-skeleton";
 import TableError from "@/components/table-error";
 
@@ -13,15 +13,15 @@ interface Props {
   slug: string;
 }
 
-const DepartmentsCoursesTable: FC<Props> = ({ slug }) => {
+const DepartmentsSubjectsTable: FC<Props> = ({ slug }) => {
   const { data, isLoading, isError, refetch } = useGetDepartmentBySlug(slug);
-  const { mutate: deleteCourses } = useDeleteCourses({ slug });
+  const { mutate: deleteSubjects } = useDeleteSubjects({ slug });
 
   if (isLoading || !data?.data)
     return <TableSkeleton className="mt-5" rows={11} />;
   if (isError) return <TableError className="mt-5" onRetry={() => refetch} />;
 
-  const courses = data.data.courses;
+  const subjects = data.data.subjects;
 
   return (
     <div className="space-y-4 mt-5">
@@ -41,13 +41,13 @@ const DepartmentsCoursesTable: FC<Props> = ({ slug }) => {
         delete={{
           onDelete: (rows) => {
             const idsArray = rows.map(({ original: { id } }) => id);
-            deleteCourses({ idsArray });
+            deleteSubjects({ idsArray });
           },
         }}
-        data={courses}
+        data={subjects}
       />
     </div>
   );
 };
 
-export default DepartmentsCoursesTable;
+export default DepartmentsSubjectsTable;

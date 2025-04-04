@@ -1,5 +1,5 @@
 import PageContainer from "@/components/app/page-container";
-import DepartmentsCoursesTable from "@/features/departments/data-tables/departments-courses-table";
+import DepartmentsSubjectsTable from "@/features/departments/data-tables/departments-subjects-table";
 import DepartmentsMembersTable from "@/features/departments/data-tables/departments-members-table";
 import AdvancedEditModals from "@/features/departments/modals/advanced-edit-modals";
 import { FC } from "react";
@@ -23,12 +23,12 @@ const EditDepartment: FC<Props> = async ({ params }) => {
       <AdvancedEditModals slug={slug} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 border border-neutral-900 p-5 rounded-lg shadow-md shadow-black">
         <div>
-          <h2 className="text-2xl"> Departments Members</h2>
+          <h2 className="text-2xl"> Department Members</h2>
           <DepartmentsMembersTable slug={slug} />
         </div>
         <div>
-          <h2 className="text-2xl"> Departments Courses</h2>
-          <DepartmentsCoursesTable slug={slug} />
+          <h2 className="text-2xl"> Departments Subjects</h2>
+          <DepartmentsSubjectsTable slug={slug} />
         </div>
       </div>
     </PageContainer>

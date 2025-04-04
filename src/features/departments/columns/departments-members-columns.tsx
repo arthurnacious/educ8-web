@@ -1,14 +1,19 @@
 import { Checkbox } from "@/components/ui/checkbox";
+import { departmentRole } from "@/types/roles";
 import { ColumnDef } from "@tanstack/react-table";
 
 interface Member {
   departmentId: string;
   userId: string;
-  role: string;
+  departmentRoleId: string;
   user: {
     id: string;
     name: string;
     email: string;
+  };
+  role: {
+    id: string;
+    name: departmentRole;
   };
 }
 
@@ -52,6 +57,6 @@ export const columns = ({}: Props): ColumnDef<Member>[] => [
   {
     id: "role",
     header: "Role",
-    cell: ({ row }) => row.original.role,
+    cell: ({ row }) => row.original.role.name,
   },
 ];

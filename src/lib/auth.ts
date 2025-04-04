@@ -73,12 +73,12 @@ export const authOptions = {
       console.log("here 1");
       // Check if the token has expired
       const now = Math.floor(Date.now() / 1000);
-      const tokenIsExpired = now >= token.expiresAt;
+      const tokenIsExpired = token && now >= token.expiresAt;
+      console.log("is token Epired?", tokenIsExpired);
+      console.log({ nowTime: now, tokenExpirationTime: token.expiresAt });
       if (!tokenIsExpired) {
         return token; // Token is still valid
       }
-
-      console.log("here 2", now);
 
       // Token expired, refresh it
       try {
