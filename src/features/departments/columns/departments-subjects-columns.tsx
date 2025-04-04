@@ -35,8 +35,8 @@ export const columns = ({}: Props): ColumnDef<Subject>[] => [
     enableHiding: false,
   },
   {
-    id: "name",
     header: "Name",
+    accessorKey: "name",
     cell: ({ row }) => {
       return row.original.name;
     },

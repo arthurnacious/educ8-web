@@ -45,6 +45,7 @@ export const columns = ({}: Props): ColumnDef<Member>[] => [
   {
     id: "name",
     header: "Name",
+    accessorFn: ({ user }) => user.name,
     cell: ({ row }) => {
       return row.original.user.name;
     },
@@ -52,11 +53,13 @@ export const columns = ({}: Props): ColumnDef<Member>[] => [
   {
     id: "email",
     header: "Email",
+    accessorKey: "email",
     cell: ({ row }) => row.original.user.email,
   },
   {
     id: "role",
     header: "Role",
+    accessorKey: "role",
     cell: ({ row }) => row.original.role.name,
   },
 ];

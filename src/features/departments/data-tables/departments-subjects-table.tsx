@@ -2,7 +2,7 @@
 
 import React, { FC } from "react";
 import { DataTable } from "@/components/data-table";
-import { columns } from "../columns/departments-courses-columns";
+import { columns } from "../columns/departments-subjects-columns";
 import { useGetDepartmentBySlug } from "../queries";
 import { cn } from "@/lib/utils";
 import { useDeleteSubjects } from "@/features/subjects/mutations";
