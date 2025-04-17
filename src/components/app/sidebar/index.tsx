@@ -21,7 +21,6 @@ import Link from "next/link";
 import { FC, Fragment, useState } from "react";
 import NavItem from "./nav-item";
 import Logo from "@/components/logo";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface Props {
   permissions: string[];
@@ -162,48 +161,35 @@ const Sidebar: FC<Props> = ({ permissions }) => {
 
           <div className="flex-1 overflow-y-auto py-4 px-4 border-r border-gray-200 dark:border-[#1F1F23]">
             <div className="space-y-6">
-              {status === "loading"
-                ? Array.from({ length: 3 }, (_, i) => (
-                    <Fragment key={i}>
-                      <Skeleton className="h-6 w-16" />
-                      <div className="">
-                        {Array.from({ length: 3 }, (_, im) => (
-                          <Skeleton key={im} className="h-6 w-full mb-2" />
-                        ))}
-                      </div>
-                    </Fragment>
-                  ))
-                : MenuItems.map(({ topic, items }, tp_index) => {
-                    // Filter items based on permissions
-                    const filteredItems = items.filter((item) =>
-                      hasPermission(item.permission)
-                    );
+              {MenuItems.map(({ topic, items }, tp_index) => {
+                // Filter items based on permissions
+                const filteredItems = items.filter((item) =>
+                  hasPermission(item.permission)
+                );
 
-                    // Only render the section if there are visible items
-                    if (filteredItems.length === 0) return null;
+                // Only render the section if there are visible items
+                if (filteredItems.length === 0) return null;
 
-                    return (
-                      <div key={`topic-${tp_index}`}>
-                        <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                          {topic}
-                        </div>
-                        <div className="space-y-1">
-                          {filteredItems.map(
-                            ({ title, href, icon }, im_index) => (
-                              <NavItem
-                                href={href}
-                                icon={icon}
-                                onClick={handleNavigation}
-                                key={`item-${im_index}`}
-                              >
-                                {title}
-                              </NavItem>
-                            )
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
+                return (
+                  <div key={`topic-${tp_index}`}>
+                    <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                      {topic}
+                    </div>
+                    <div className="space-y-1">
+                      {filteredItems.map(({ title, href, icon }, im_index) => (
+                        <NavItem
+                          href={href}
+                          icon={icon}
+                          onClick={handleNavigation}
+                          key={`item-${im_index}`}
+                        >
+                          {title}
+                        </NavItem>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
