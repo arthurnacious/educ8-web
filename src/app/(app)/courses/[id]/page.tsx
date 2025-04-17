@@ -1,5 +1,5 @@
 import PageContainer from "@/components/app/page-container";
-import DataWrapper from "@/features/classes/data-wrapper";
+import DataWrapper from "@/features/courses/data-wrapper";
 import React, { FC } from "react";
 
 interface Props {
@@ -9,11 +9,11 @@ interface Props {
 const breadcrumbs = [
   { label: "Dashboard", href: "/dashboard" },
   {
-    label: "Classes",
-    href: "/classes",
+    label: "Courses",
+    href: "/Courses",
   },
   {
-    label: "This class",
+    label: "This Course",
   },
 ];
 const ShowClass: FC<Props> = async ({ params }) => {

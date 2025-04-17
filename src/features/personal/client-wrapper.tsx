@@ -1,39 +1,39 @@
 "use client";
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import { TabsContent, TabsTrigger } from "@/components/ui/tabs";
-import PersonalPresentedClassesTable from "@/features/personal/data-tables/personal-presented-classes-table";
-import PersonalEnrolledClassesTable from "@/features/personal/data-tables/personal-enrolled-classes-table";
-import PersonalDepartmentClassesTable from "@/features/personal/data-tables/personal-department-classes-table";
+import PersonalPresentedCoursesTable from "@/features/personal/data-tables/personal-presented-courses-table";
+import PersonalEnrolledCoursesTable from "@/features/personal/data-tables/personal-enrolled-courses-table";
+import PersonalDepartmentCoursesTable from "@/features/personal/data-tables/personal-department-courses-table";
 
-const PersonalClassesTabs = [
+const PersonalCoursesTabs = [
   {
-    tab: "presentedClasses",
+    tab: "presentedCourses",
     tag: "Presented",
-    content: <PersonalPresentedClassesTable />,
+    content: <PersonalPresentedCoursesTable />,
   },
   {
-    tab: "enrolledClasses",
+    tab: "enrolledCourses",
     tag: "Enrolled",
-    content: <PersonalEnrolledClassesTable />,
+    content: <PersonalEnrolledCoursesTable />,
   },
   {
-    tab: "departmentClasses",
+    tab: "departmentCourses",
     tag: "Department",
-    content: <PersonalDepartmentClassesTable />,
+    content: <PersonalDepartmentCoursesTable />,
   },
 ];
 
 const ClientWrapper = () => {
   return (
-    <Tabs defaultValue={PersonalClassesTabs.at(0)?.tab || "presentedClasses"}>
+    <Tabs defaultValue={PersonalCoursesTabs.at(0)?.tab || "presentedCourses"}>
       <TabsList className="flex space-x-2">
-        {PersonalClassesTabs.map(({ tab, tag }) => (
+        {PersonalCoursesTabs.map(({ tab, tag }) => (
           <TabsTrigger key={`trigger-${tab}`} value={tab}>
             {tag}
           </TabsTrigger>
         ))}
       </TabsList>
-      {PersonalClassesTabs.map(({ tab, content }) => (
+      {PersonalCoursesTabs.map(({ tab, content }) => (
         <TabsContent key={`content-${tab}`} value={tab}>
           {content}
         </TabsContent>

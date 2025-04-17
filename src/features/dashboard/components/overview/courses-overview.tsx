@@ -63,7 +63,7 @@ const ACCOUNTS: AccountItem[] = [
   },
 ];
 
-const ClassesOverview: FC<Props> = ({
+const CoursesOverview: FC<Props> = ({
   totalBalance = "$26,540.25",
   accounts = ACCOUNTS,
   className,
@@ -226,4 +226,4 @@ const ClassesOverview: FC<Props> = ({
   );
 };
 
-export default ClassesOverview;
+export default CoursesOverview;

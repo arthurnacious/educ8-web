@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { useGetClassById } from "@/features/classes/queries";
-import { useRemoveStudentsFromClass } from "@/features/classes/mutations";
+import { useGetClassById } from "@/features/courses/queries";
+import { useRemoveStudentsFromClass } from "@/features/courses/mutations";
 import { Button } from "@/components/ui/button";
 import {
   Card,

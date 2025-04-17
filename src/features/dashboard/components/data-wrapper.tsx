@@ -2,7 +2,7 @@
 import React from "react";
 import FinancialOverview from "@/features/dashboard/components/overview/financial-overview";
 import { Calendar, CreditCard, Users, Wallet } from "lucide-react";
-import ClassesOverview from "@/features/dashboard/components/overview/classes-overview";
+import CoursesOverview from "@/features/dashboard/components/overview/courses-overview";
 import UsersOverview from "@/features/dashboard/components/overview/users-overview";
 import AuditLogsTable from "../data-tables/audit-logs";
 
@@ -25,7 +25,7 @@ const DataWrapper = () => {
             Recent Transactions
           </h2>
           <div className="flex-1">
-            <ClassesOverview className="h-full" />
+            <CoursesOverview className="h-full" />
           </div>
         </div>
         <div className="bg-white dark:bg-[#0F0F12] rounded-xl p-6 flex flex-col border border-gray-200 dark:border-[#1F1F23]">

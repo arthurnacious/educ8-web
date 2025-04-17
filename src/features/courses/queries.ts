@@ -11,12 +11,12 @@ type ClassData = {
   marks: Field[];
 };
 
-export function useGetClassById({ classId }: { classId: string }) {
+export function useGetClassById({ courseId }: { courseId: string }) {
   const { fetchClient, isAuthenticated } = useFetchClient();
   const getClassById = async (
-    classId: string
+    courseId: string
   ): Promise<{ data: ClassData }> => {
-    const data = await fetchClient(`${api_url}/classes/${classId}`).then(
+    const data = await fetchClient(`${api_url}/courses/${courseId}`).then(
       async (res) => await res.json()
     );
 
@@ -24,8 +24,8 @@ export function useGetClassById({ classId }: { classId: string }) {
   };
 
   return useQuery({
-    queryKey: ["class", classId],
-    queryFn: () => getClassById(classId),
+    queryKey: ["class", courseId],
+    queryFn: () => getClassById(courseId),
     enabled: isAuthenticated,
   });
 }

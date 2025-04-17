@@ -4,13 +4,13 @@ import React from "react";
 const breadcrumbs = [
   { label: "Dashboard", href: "/dashboard" },
   {
-    label: "Classes",
+    label: "Courses",
   },
 ];
 const Dashboard = () => {
   return (
     <PageContainer breadcrumbs={breadcrumbs}>
-      <h2>List of clases goes here</h2>
+      <h2>List of Courses goes here</h2>
     </PageContainer>
   );
 };

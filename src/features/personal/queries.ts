@@ -2,17 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { api_url } from "@/lib/config";
 import { useFetchClient } from "@/lib/fetch-client";
 
-export function useGetPersonalClasses() {
+export function useGetPersonalCourses() {
   const { fetchClient, isAuthenticated } = useFetchClient();
-  const getPersonalClasses = async (): Promise<{
+  const getPersonalCourses = async (): Promise<{
     data: {
-      presentedClasses: {
+      presentedCourses: {
         id: string;
         subjectName: string;
         departmentName: string;
         createdAt: Date;
       }[];
-      enrolledClasses: {
+      enrolledCourses: {
         id: string;
         subjectName: string;
         departmentName: string;
@@ -22,7 +22,7 @@ export function useGetPersonalClasses() {
         };
         createdAt: Date;
       }[];
-      departmentClasses: {
+      departmentCourses: {
         id: string;
         subjectName: string;
         departmentName: string;
@@ -34,7 +34,7 @@ export function useGetPersonalClasses() {
       }[];
     };
   }> => {
-    const data = await fetchClient(`${api_url}/personal/classes`).then((res) =>
+    const data = await fetchClient(`${api_url}/personal/courses`).then((res) =>
       res.json()
     );
 
@@ -42,8 +42,8 @@ export function useGetPersonalClasses() {
   };
 
   return useQuery({
-    queryKey: ["personal", "classes"],
-    queryFn: getPersonalClasses,
+    queryKey: ["personal", "courses"],
+    queryFn: getPersonalCourses,
     enabled: isAuthenticated,
   });
 }

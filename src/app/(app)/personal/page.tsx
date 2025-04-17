@@ -1,7 +1,7 @@
 import PageContainer from "@/components/app/page-container";
 
 const breadcrumbs = [{ label: "Dashboard", href: "/" }, { label: "Personal" }];
-const PersonalClasses = () => {
+const PersonalItems = () => {
   return (
     <PageContainer breadcrumbs={breadcrumbs}>
       <h1 className="text-3xl font-bold mb-2 px-5">Personal Stuff</h1>
@@ -13,4 +13,4 @@ const PersonalClasses = () => {
   );
 };
 
-export default PersonalClasses;
+export default PersonalItems;

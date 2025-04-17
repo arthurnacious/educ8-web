@@ -18,7 +18,7 @@ export const useRemoveStudentsFromClass = ({
 
   const removeStudents = async ({ studentIds }: { studentIds: string[] }) => {
     const response = await fetchClient(
-      `${api_url}/classes/${classId}/students/remove`,
+      `${api_url}/courses/${classId}/students/remove`,
       {
         method: "PATCH",
         body: JSON.stringify({ studentIds }),

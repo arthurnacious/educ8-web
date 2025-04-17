@@ -9,7 +9,7 @@ import Link from "next/link";
 
 type Props = object;
 
-interface EnrolledClasses {
+interface Enrollment {
   id: string;
   subjectName: string;
   departmentName: string;
@@ -17,7 +17,7 @@ interface EnrolledClasses {
   createdAt: Date;
 }
 
-export const columns = ({}: Props): ColumnDef<EnrolledClasses>[] => {
+export const columns = ({}: Props): ColumnDef<Enrollment>[] => {
   return [
     {
       accessorKey: "subjectName",
@@ -112,7 +112,7 @@ export const columns = ({}: Props): ColumnDef<EnrolledClasses>[] => {
       cell: ({ row: { original } }) => (
         <Link
           className={buttonVariants({ variant: "outline" })}
-          href={`/classes/${original.id}`}
+          href={`/courses/${original.id}`}
         >
           <Link2 className="mr-1 size-4" /> Go to Class
         </Link>

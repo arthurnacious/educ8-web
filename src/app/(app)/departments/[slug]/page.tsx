@@ -8,8 +8,8 @@ interface Props {
 const breadcrumbs = [
   { label: "Dashboard", href: "/dashboard" },
   {
-    label: "Classes",
-    href: "/classes",
+    label: "Courses",
+    href: "/courses",
   },
   {
     label: "This class",
