@@ -20,7 +20,7 @@ const PersonalEnrolledClassesTable: FC<Props> = () => {
   return (
     <div className="space-y-4 mt-5">
       <DataTable
-        defaultSortingColumn="courseName"
+        defaultSortingColumn="subjectName"
         columns={columns({})}
         data={enrolledClasses}
       />

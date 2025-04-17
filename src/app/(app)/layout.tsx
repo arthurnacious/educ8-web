@@ -11,10 +11,10 @@ export default async function Layout({ children }: LayoutProps) {
   const session = await auth();
 
   const userDetails = {
-    name: session?.user.name,
-    email: session?.user.email,
-    image: session?.user.image,
-    role: session?.user.role,
+    name: session?.user.name ?? "",
+    email: session?.user.email ?? "",
+    image: session?.user.image ?? "",
+    role: session?.user.role ?? "",
   };
 
   return (

@@ -8,13 +8,13 @@ export function useGetPersonalClasses() {
     data: {
       presentedClasses: {
         id: string;
-        courseName: string;
+        subjectName: string;
         departmentName: string;
         createdAt: Date;
       }[];
       enrolledClasses: {
         id: string;
-        courseName: string;
+        subjectName: string;
         departmentName: string;
         lecturer: {
           name: string;
@@ -24,7 +24,7 @@ export function useGetPersonalClasses() {
       }[];
       departmentClasses: {
         id: string;
-        courseName: string;
+        subjectName: string;
         departmentName: string;
         lecturer: {
           name: string;

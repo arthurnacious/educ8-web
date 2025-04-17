@@ -10,7 +10,7 @@ type Props = object;
 
 interface PresentedClasses {
   id: string;
-  courseName: string;
+  subjectName: string;
   departmentName: string;
   createdAt: Date;
 }
@@ -18,19 +18,19 @@ interface PresentedClasses {
 export const columns = ({}: Props): ColumnDef<PresentedClasses>[] => {
   return [
     {
-      accessorKey: "courseName",
+      accessorKey: "subjectName",
       header: ({ column }) => (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Course Name
+          Subject Name
           <ArrowUpDown className="ml-2 size-4" />
         </Button>
       ),
       cell: ({ row: { original } }) => (
         <div className="flex items-center gap-2">
-          <div className="text-sm font-medium">{original.courseName}</div>
+          <div className="text-sm font-medium">{original.subjectName}</div>
         </div>
       ),
     },

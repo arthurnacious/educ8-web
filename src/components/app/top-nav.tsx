@@ -11,10 +11,10 @@ import { FC } from "react";
 
 interface Props {
   user: {
-    name: string;
-    email: string;
-    image: string;
-    role: string;
+    name?: string;
+    email?: string;
+    image?: string;
+    role?: string;
   };
 }
 

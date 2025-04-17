@@ -11,7 +11,7 @@ type Props = object;
 
 interface EnrolledClasses {
   id: string;
-  courseName: string;
+  subjectName: string;
   departmentName: string;
   lecturer: { name: string; image?: string };
   createdAt: Date;
@@ -20,13 +20,13 @@ interface EnrolledClasses {
 export const columns = ({}: Props): ColumnDef<EnrolledClasses>[] => {
   return [
     {
-      accessorKey: "courseName",
+      accessorKey: "subjectName",
       header: ({ column }) => (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Course Name
+          Subject Name
           <ArrowUpDown className="ml-2 size-4" />
         </Button>
       ),

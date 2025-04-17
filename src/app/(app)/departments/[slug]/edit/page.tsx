@@ -18,7 +18,7 @@ const EditDepartment: FC<Props> = async ({ params }) => {
 
   return (
     <PageContainer breadcrumbs={breadcrumbs}>
-      <h1 className="text-3xl font-bold mb-2">Advanced Department Edit</h1>
+      <h1 className="text-3xl font-bold mb-2 px-5">Advanced Department Edit</h1>
       <div className="border-t border-gray-500" />
       <AdvancedEditModals slug={slug} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 border border-neutral-900 p-5 rounded-lg shadow-md shadow-black">

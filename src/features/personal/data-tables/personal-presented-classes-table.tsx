@@ -17,10 +17,12 @@ const PersonalPresentedClassesTable: FC<Props> = () => {
 
   const presentedClasses = data?.data.presentedClasses;
 
+  console.log(presentedClasses);
+
   return (
     <div className="space-y-4 mt-5">
       <DataTable
-        defaultSortingColumn="courseName"
+        defaultSortingColumn="subjectName"
         columns={columns({})}
         data={presentedClasses}
       />
