@@ -20,7 +20,7 @@ const ShowClass: FC<Props> = async ({ params }) => {
   const { id } = await params;
   return (
     <PageContainer breadcrumbs={breadcrumbs}>
-      <DataWrapper classId={id} />
+      <DataWrapper courseId={id} />
     </PageContainer>
   );
 };

@@ -15,13 +15,13 @@ import MarksDataTable from "./data-tables/marks";
 import AttendanceDataTable from "./data-tables/attendance";
 
 interface Props {
-  classId: string;
+  courseId: string;
 }
 
-const LessonRoster: FC<Props> = ({ classId }) => {
-  const { data, isLoading, isError, refetch } = useGetClassById({ classId });
+const LessonRoster: FC<Props> = ({ courseId }) => {
+  const { data, isLoading, isError, refetch } = useGetClassById({ courseId });
   const { isPending, mutate: removeStudents } = useRemoveStudentsFromClass({
-    classId,
+    courseId,
   });
 
   const classData = data?.data;

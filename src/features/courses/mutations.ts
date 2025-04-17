@@ -5,12 +5,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type StudentRemoveProps = {
   onSuccess?: () => void;
-  classId: string;
+  courseId: string;
 };
 
 export const useRemoveStudentsFromClass = ({
   onSuccess: callback,
-  classId,
+  courseId,
 }: StudentRemoveProps) => {
   const { fetchClient } = useFetchClient();
   const queryClient = useQueryClient();
@@ -18,7 +18,7 @@ export const useRemoveStudentsFromClass = ({
 
   const removeStudents = async ({ studentIds }: { studentIds: string[] }) => {
     const response = await fetchClient(
-      `${api_url}/courses/${classId}/students/remove`,
+      `${api_url}/courses/${courseId}/students/remove`,
       {
         method: "PATCH",
         body: JSON.stringify({ studentIds }),
@@ -36,7 +36,7 @@ export const useRemoveStudentsFromClass = ({
     mutationFn: removeStudents,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["class", classId],
+        queryKey: ["class", courseId],
       });
       toast({
         title: "Success!",

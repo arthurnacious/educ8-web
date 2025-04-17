@@ -34,7 +34,7 @@ export interface Field {
 interface Payment {
   id: string;
   userId: string;
-  classId: string;
+  courseId: string;
   paymentMethod: string;
   amount: number;
   createdAt: Date;
