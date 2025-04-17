@@ -1,15 +1,24 @@
+"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Bell, Loader2, UserCircle } from "lucide-react";
+import { Bell, UserCircle } from "lucide-react";
 import Image from "next/image";
 import AuthUserProfile from "./auth-user-profile";
-import { useSession } from "next-auth/react";
+import { FC } from "react";
 
-export default function TopNav() {
-  const { data: session, status } = useSession();
+interface Props {
+  user: {
+    name: string;
+    email: string;
+    image: string;
+    role: string;
+  };
+}
+
+const TopNav: FC<Props> = ({ user }) => {
   return (
     <nav className="px-3 sm:px-6 flex items-center justify-between bg-white dark:bg-[#0F0F12] border-b border-gray-200 dark:border-[#1F1F23] h-full">
       <div />
@@ -25,42 +34,35 @@ export default function TopNav() {
             </span>
           </div>
         </button>
-
-        {status === "loading" ? (
-          <Loader2 className="size-8 text-gray-600 dark:text-gray-300 animate-spin" />
-        ) : session?.user ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger className="focus:outline-none">
-              {session.user.image ? (
-                <Image
-                  src={session.user.image}
-                  alt="User avatar"
-                  width={28}
-                  height={28}
-                  className="rounded-full ring-2 ring-gray-200 dark:ring-[#2B2B30] sm:w-8 sm:h-8 cursor-pointer"
-                />
-              ) : (
-                <UserCircle className="size-8 text-gray-600 dark:text-gray-300" />
-              )}
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="end"
-              sideOffset={8}
-              className="w-fit bg-background border-border rounded-lg shadow-lg bg-neutral-900"
-            >
-              <AuthUserProfile
-                name={session?.user.name ?? ""}
-                role={session?.user.role ?? ""}
-                avatar={session?.user.image ?? ""}
+        <DropdownMenu>
+          <DropdownMenuTrigger className="focus:outline-none">
+            {user.image ? (
+              <Image
+                src={user.image}
+                alt="User avatar"
+                width={28}
+                height={28}
+                className="rounded-full ring-2 ring-gray-200 dark:ring-[#2B2B30] sm:w-8 sm:h-8 cursor-pointer"
               />
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <div className="size-8 rounded-full ring-2 ring-gray-200 dark:ring-[#2B2B30] sm:w-8 sm:h-8 cursor-pointer">
-            <UserCircle className="w-full h-full text-gray-600 dark:text-gray-300" />
-          </div>
-        )}
+            ) : (
+              <UserCircle className="size-8 text-gray-600 dark:text-gray-300" />
+            )}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            sideOffset={8}
+            className="w-fit bg-background border-border rounded-lg shadow-lg bg-neutral-900"
+          >
+            <AuthUserProfile
+              name={user.name ?? ""}
+              role={user.role ?? ""}
+              avatar={user.image ?? ""}
+            />
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </nav>
   );
-}
+};
+
+export default TopNav;

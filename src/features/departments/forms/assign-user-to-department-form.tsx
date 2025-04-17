@@ -17,11 +17,10 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { FC } from "react";
-import { departmentRole } from "@/types/roles";
 import { useGetAllUsers } from "@/features/users/queries";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useGetDepartmentBySlug } from "../queries";
+import { useGetDepartmentBySlug, useGetDepartmentRoles } from "../queries";
 import { useAssignUserToDepartment } from "../mutations";
 import SearchableSelect from "@/components/searchable-select";
 
@@ -30,18 +29,21 @@ interface Props {
   onSuccess?: () => void;
 }
 
-const roles = Object.values(departmentRole);
-
 const formSchema = z.object({
   userId: z.string().min(1, {
     message: "User Must be selected",
   }),
-  role: z.nativeEnum(departmentRole).default(roles[0]),
+  role: z.string().min(1, {
+    message: "Role must be selected",
+  }),
 });
 
 const AssignUserToDepartmentForm: FC<Props> = ({ slug, onSuccess }) => {
-  const { data: usersData, isLoading } = useGetAllUsers();
+  const { data: usersData, isLoading: isLoadingUsers } = useGetAllUsers();
   const { data: departmentsData } = useGetDepartmentBySlug(slug);
+  const { data: departmentRolesData, isLoading: isLoadingRoles } =
+    useGetDepartmentRoles();
+
   const { mutate, isPending: isAssigning } = useAssignUserToDepartment({
     onSuccess,
     slug,
@@ -51,21 +53,32 @@ const AssignUserToDepartmentForm: FC<Props> = ({ slug, onSuccess }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       userId: "",
-      role: roles[0],
+      role: "",
     },
   });
 
   const users = usersData?.data;
-  const isDisabled = isLoading || (users && users.length === 0) || isAssigning;
   const department = departmentsData?.data;
 
+  // Use dynamic roles if available, otherwise fallback to static roles
+  const roles = departmentRolesData?.data;
+
+  const isDisabled =
+    isLoadingUsers ||
+    isLoadingRoles ||
+    (users && users.length === 0) ||
+    isAssigning ||
+    !department;
+
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate({ ...values, departmentId: department?.id as string });
+    if (!department?.id) return;
+
+    mutate({ ...values, departmentId: department.id });
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="userId"
@@ -82,43 +95,48 @@ const AssignUserToDepartmentForm: FC<Props> = ({ slug, onSuccess }) => {
             </FormItem>
           )}
         />
+        {roles && (
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Role</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  disabled={isDisabled}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a role" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {roles.map((role) => (
+                      <SelectItem key={role.id} value={role.id}>
+                        {role.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
-        <FormField
-          control={form.control}
-          name="role"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Role</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={roles[0]}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a role" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {roles.map((role) => (
-                    <SelectItem key={role} value={role}>
-                      {role}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="mt-6">
-          <Button
-            type="submit"
-            className="w-full"
-            variant="outline"
-            disabled={isDisabled}
-          >
-            Attach Member
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          className="w-full mt-6"
+          disabled={isDisabled}
+          isLoading={isAssigning}
+        >
+          Attach Member
+        </Button>
       </form>
     </Form>
   );
 };
+
 export default AssignUserToDepartmentForm;

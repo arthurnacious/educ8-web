@@ -18,13 +18,14 @@ import {
 
 import { Home } from "lucide-react";
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { FC, Fragment, useState } from "react";
 import NavItem from "./nav-item";
 import Logo from "@/components/logo";
-import { useSession } from "next-auth/react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Define an interface for menu items with optional permission
+interface Props {
+  permissions: string[];
+}
 interface MenuItem {
   title: string;
   href: string;
@@ -119,11 +120,8 @@ const MenuItems: MenuSection[] = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar: FC<Props> = ({ permissions }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { data: session, status } = useSession();
-
-  console.log(status);
 
   function handleNavigation() {
     if (isMobileMenuOpen) return;
@@ -133,10 +131,10 @@ const Sidebar = () => {
   // Function to check if user has a specific permission
   const hasPermission = (permission?: string) => {
     if (!permission) return true; // Always show items without specific permission
-    if (!session?.user?.permissions) return false;
+    if (permissions.length === 0) return false;
 
     // Check if permission exists in the array
-    return session.user.permissions.includes(permission);
+    return permissions.includes(permission);
   };
 
   return (

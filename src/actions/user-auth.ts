@@ -60,6 +60,8 @@ export const getRefreshToken = async (
       body: JSON.stringify({ refreshToken }),
     });
 
+    console.log("response", response);
+
     if (!response.ok) {
       throw new Error("Failed to refresh token");
     }

@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { useCallback } from "react";
 
 interface FetchClientOptions extends RequestInit {
@@ -17,12 +17,26 @@ export function useFetchClient() {
         headers.set("Content-Type", "application/json");
       }
 
-      if (session?.user.tokens.accessToken && !skipAuth) {
-        console.log({ accessToken: session.user.tokens.accessToken });
-        headers.set("Authorization", `${session.user.tokens.accessToken}`);
+      const token = session?.user.tokens.accessToken;
+
+      if (token && !skipAuth) {
+        headers.set("Authorization", `${token}`);
       }
 
-      return await fetch(url, { ...restOptions, headers });
+      const res = await fetch(url, { ...restOptions, headers });
+
+      if (res.status === 401 && !skipAuth) {
+        // Token might be expired, try to refresh
+        const newSession = await getSession();
+
+        if (newSession?.user.tokens.accessToken) {
+          headers.set("Authorization", `${newSession.user.tokens.accessToken}`);
+          // Retry the request
+          return fetch(url, { ...restOptions, headers });
+        }
+      }
+
+      return res;
     },
     [session]
   );
