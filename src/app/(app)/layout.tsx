@@ -18,13 +18,13 @@ export default async function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="flex h-[100dvh]">
+    <div className="flex h-[100dvh] bg-white dark:bg-[#0F0F12]">
       <Sidebar permissions={session?.user.permissions ?? []} />
       <div className="w-full flex flex-1 flex-col">
-        <header className="h-16 border-b border-gray-200 dark:border-[#1F1F23]">
+        <header className="h-16">
           <TopNav user={userDetails} />
         </header>
-        <main className="flex-1 overflow-auto p-6 bg-white dark:bg-neutral-950">
+        <main className="flex-1 p-6 bg-neutral-100 dark:bg-neutral-950 rounded-t-xl overflow-auto shadow-[inset_0_2px_8px_0_rgba(0,0,0,0.2)]">
           {children}
         </main>
       </div>

@@ -8,6 +8,7 @@ import { Bell, UserCircle } from "lucide-react";
 import Image from "next/image";
 import AuthUserProfile from "./auth-user-profile";
 import { FC } from "react";
+import { ThemeSwitcher } from "./theme-switcher";
 
 interface Props {
   user: {
@@ -20,9 +21,10 @@ interface Props {
 
 const TopNav: FC<Props> = ({ user }) => {
   return (
-    <nav className="px-3 sm:px-6 flex items-center justify-between bg-white dark:bg-[#0F0F12] border-b border-gray-200 dark:border-[#1F1F23] h-full">
+    <div className="px-3 sm:px-6 flex items-center justify-between bg-white dark:bg-[#0F0F12] h-full">
       <div />
       <div className="flex items-center gap-2 sm:gap-4 ml-auto sm:ml-0">
+        <ThemeSwitcher />
         <button
           type="button"
           className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-[#1F1F23] rounded-full transition-colors relative"
@@ -61,7 +63,7 @@ const TopNav: FC<Props> = ({ user }) => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </nav>
+    </div>
   );
 };
 

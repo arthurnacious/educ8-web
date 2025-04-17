@@ -56,19 +56,19 @@ const MenuItems: MenuSection[] = [
       },
       {
         title: "Courses",
-        href: "courses",
+        href: "/courses",
         icon: Folder,
         permission: "can_view_courses",
       },
       {
         title: "Users",
-        href: "users",
+        href: "/users",
         icon: Users2,
         permission: "can_view_users",
       },
       {
         title: "Audits",
-        href: "audits",
+        href: "/audits",
         icon: Logs,
         permission: "can_view_audits",
       },
@@ -148,7 +148,7 @@ const Sidebar: FC<Props> = ({ permissions }) => {
       <nav
         className={`
                 fixed inset-y-0 left-0 z-[70] w-56 bg-white dark:bg-[#0F0F12] transform transition-transform duration-200 ease-in-out
-                lg:translate-x-0 lg:static lg:w-56 sm:border-r md:border-none border-gray-200 dark:border-[#1F1F23]
+                lg:translate-x-0 lg:static lg:w-56
                 ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
             `}
       >
@@ -159,7 +159,7 @@ const Sidebar: FC<Props> = ({ permissions }) => {
             </div>
           </Link>
 
-          <div className="flex-1 overflow-y-auto py-4 px-4 border-r border-gray-200 dark:border-[#1F1F23]">
+          <div className="flex-1 overflow-y-auto py-4 px-4 ">
             <div className="space-y-6">
               {MenuItems.map(({ topic, items }, tp_index) => {
                 // Filter items based on permissions
