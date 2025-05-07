@@ -8,8 +8,12 @@ interface FetchClientOptions extends RequestInit {
 export function useFetchClient() {
   const { data: session, status } = useSession();
 
+  // Inside useFetchClient
   const fetchClient = useCallback(
-    async (url: string, options: FetchClientOptions = {}) => {
+    async <T = any>(
+      url: string,
+      options: FetchClientOptions = {}
+    ): Promise<T> => {
       const { skipAuth, headers: customHeaders, ...restOptions } = options;
       const headers = new Headers(customHeaders);
 
@@ -23,20 +27,23 @@ export function useFetchClient() {
         headers.set("Authorization", `${token}`);
       }
 
-      const res = await fetch(url, { ...restOptions, headers });
+      let res = await fetch(url, { ...restOptions, headers });
 
       if (res.status === 401 && !skipAuth) {
-        // Token might be expired, try to refresh
         const newSession = await getSession();
 
         if (newSession?.user.tokens.accessToken) {
           headers.set("Authorization", `${newSession.user.tokens.accessToken}`);
-          // Retry the request
-          return fetch(url, { ...restOptions, headers });
+          res = await fetch(url, { ...restOptions, headers });
         }
       }
 
-      return res;
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData?.message || "An unknown error occurred");
+      }
+
+      return res.json();
     },
     [session]
   );

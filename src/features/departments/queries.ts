@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 // import { Department } from "../interface";
 import { api_url } from "@/lib/config";
-import { GetDepartmentBySlugType } from "@/types/departments";
+import { Department, GetDepartmentBySlugType } from "@/types/departments";
 import { useFetchClient } from "@/lib/fetch-client";
 
 // interface DepartmentWithCounts extends Department {
@@ -12,17 +12,12 @@ import { useFetchClient } from "@/lib/fetch-client";
 
 export function useGetAllDepartments() {
   const { fetchClient, isAuthenticated } = useFetchClient();
-  const getAllDepartments = async () => {
-    const data = await fetchClient(`${api_url}/departments`).then((res) =>
-      res.json()
-    );
-
-    return data;
-  };
-
   return useQuery({
     queryKey: ["departments"],
-    queryFn: getAllDepartments,
+    queryFn: async () =>
+      fetchClient<{ data: Department[] }>(`${api_url}/departments`).then(
+        (res) => res.data
+      ),
     enabled: isAuthenticated,
   });
 }
