@@ -11,9 +11,7 @@ import { useDeleteSubjects } from "./mutations";
 type Props = object;
 
 const DataWrapper: FC<Props> = ({}) => {
-  const [editDepartmentSlug, setEditDepartmentSlug] = useState<
-    string | undefined
-  >();
+  const [, setEditDepartmentSlug] = useState<string | undefined>();
   const {
     data: departments,
     isLoading,
@@ -33,28 +31,28 @@ const DataWrapper: FC<Props> = ({}) => {
         close={() => setEditDepartmentSlug(undefined)}
       /> */}
 
-      {isLoading || !departments?.data ? (
+      {isLoading || !departments ? (
         <TableSkeleton className="mt-5" />
       ) : isError ? (
         <TableError className="mt-5" onRetry={() => refetch()} />
-      ) : departments?.data && departments.data.length === 0 ? (
+      ) : departments && departments.length === 0 ? (
         <EmptyData>
           <h2 className="text-lg font-semibold text-gray-300">
             No Departments in the System
           </h2>
         </EmptyData>
-      ) : departments?.data ? (
+      ) : departments ? (
         <DataTable
           columns={columns({
             onEditClick: setEditDepartmentSlug,
           })}
           delete={{
             onDelete: (rows) => {
-              const ids = rows.map(({ original }) => original.id);
-              deleteSelctedDepartments({ ids });
+              const idsArray = rows.map(({ original }) => original.id);
+              deleteSelctedDepartments({ idsArray });
             },
           }}
-          data={departments.data}
+          data={departments}
           defaultSortingColumn="name"
         />
       ) : null}

@@ -10,7 +10,7 @@ export function useFetchClient() {
 
   // Inside useFetchClient
   const fetchClient = useCallback(
-    async <T = any>(
+    async <T = unknown>(
       url: string,
       options: FetchClientOptions = {}
     ): Promise<T> => {

@@ -9,7 +9,9 @@ export function useGetAllSubjects() {
   return useQuery({
     queryKey: ["subjects"],
     queryFn: async () =>
-      fetchClient<{ data: Subject[] }>(`${api_url}/subjects`),
+      fetchClient<{ data: Subject[] }>(`${api_url}/subjects`).then(
+        (res) => res.data
+      ),
     enabled: isAuthenticated,
   });
 }

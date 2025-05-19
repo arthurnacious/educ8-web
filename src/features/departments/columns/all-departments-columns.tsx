@@ -5,18 +5,10 @@ import Actions from "../actions";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Department } from "../interface";
 
 interface Props {
   onEditClick?: (slug: string) => void;
-}
-
-interface Department {
-  id: string;
-  slug: string;
-  name: string;
-  lecturersCount: number;
-  leadersCount: number;
-  subjectsCount: number;
 }
 
 export const columns = ({ onEditClick }: Props): ColumnDef<Department>[] => {

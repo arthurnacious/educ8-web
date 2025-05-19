@@ -1,21 +1,18 @@
 "use client";
 
-import React, { FC, useEffect } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { FC } from "react";
 import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useUpdateSubject } from "../mutations";
-import { Button } from "@/components/ui/button";
-import { useGetSubjectBySlug } from "../queries";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -24,14 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Skeleton } from "@/components/ui/skeleton";
-
-import { useGetAllDepartments } from "@/features/departments/queries";
-
-type Props = {
-  onSuccessCallback?: () => void;
-  slug?: string;
-};
+import { Button } from "@/components/ui/button";
+import { useUpdateSubject } from "../mutations";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -41,61 +32,32 @@ const formSchema = z.object({
   departmentId: z.string(),
 });
 
-const EditSubjectForm: FC<Props> = ({ onSuccessCallback, slug }) => {
+type Props = {
+  defaultValues: z.infer<typeof formSchema>;
+  departments: { id: string; name: string }[];
+  onSuccessCallback?: () => void;
+  slug: string;
+};
+
+const EditSubjectForm: FC<Props> = ({
+  defaultValues,
+  departments,
+  onSuccessCallback,
+  slug,
+}) => {
   const mutation = useUpdateSubject({
     onSuccessCallback,
-    slug: slug as string,
+    slug,
   });
-
-  const {
-    data: departmentsData,
-    isLoading: departmentsLoading,
-    isError: departmentsError,
-  } = useGetAllDepartments();
-  const { data: subjectData, isLoading, isError } = useGetSubjectBySlug(slug);
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    mutation.mutate(values);
-  }
-
-  const defaultValues = {
-    name: "",
-    description: "",
-    departmentId: "",
-  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
 
-  useEffect(() => {
-    if (subjectData) {
-      form.reset({
-        name: subjectData.name,
-        description: subjectData.description,
-        departmentId: subjectData.departmentId,
-      });
-    }
-  }, [subjectData, form]);
-
-  console.log("state", form.formState.defaultValues);
-
-  if (isLoading || departmentsLoading) {
-    return (
-      <div className="space-y-4">
-        <Skeleton className="h-6 w-1/3" />
-        <Skeleton className="h-10 w-full" />
-        <Skeleton className="h-6 w-1/3" />
-        <Skeleton className="h-24 w-full" />
-        <Skeleton className="h-6 w-1/3" />
-        <Skeleton className="h-10 w-full" />
-        <Skeleton className="h-10 w-32" />
-      </div>
-    );
-  }
-
-  // if (isError || departmentsError) return <p>An error occurred.</p>;
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    mutation.mutate(values);
+  };
 
   return (
     <Form {...form}>
@@ -134,19 +96,14 @@ const EditSubjectForm: FC<Props> = ({ onSuccessCallback, slug }) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Department</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-                value={field.value}
-                disabled={departmentsLoading || departmentsError}
-              >
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select department" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {departmentsData?.map((department) => (
+                  {departments.map((department) => (
                     <SelectItem key={department.id} value={department.id}>
                       {department.name}
                     </SelectItem>

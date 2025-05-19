@@ -117,8 +117,8 @@ export const useUpdateDepartment = ({
       body: JSON.stringify({ name }),
     });
 
-    if (!response.ok) {
-      throw new Error("Failed to create department");
+    if (!response.data) {
+      throw new Error("Failed to update department");
     }
 
     return response.json();
@@ -170,8 +170,8 @@ export const useAssignUserToDepartment = ({
       body: JSON.stringify({ userId, departmentId, role }),
     });
 
-    if (!response.ok) {
-      throw new Error("Failed to create department");
+    if (!response.data) {
+      throw new Error("Failed to attach user to department");
     }
 
     return response.json();
@@ -221,7 +221,7 @@ export const useUnassignedMembersWithIds = ({
     });
 
     if (!response.ok) {
-      throw new Error("Failed to create department");
+      throw new Error("Failed to remove users from department");
     }
 
     return response.json();

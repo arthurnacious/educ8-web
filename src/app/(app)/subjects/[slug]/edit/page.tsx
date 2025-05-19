@@ -1,5 +1,5 @@
 import PageContainer from "@/components/app/page-container";
-import EditSubjectForm from "@/features/subjects/forms/edit-subject-form";
+import EditSubjectFormLoader from "@/features/subjects/forms/edit-subject-form-loader";
 import React, { FC } from "react";
 
 interface Props {
@@ -15,7 +15,7 @@ const Subjects: FC<Props> = async ({ params }) => {
   const { slug } = await params;
   return (
     <PageContainer breadcrumbs={breadcrumbs}>
-      <EditSubjectForm slug={slug} />
+      <EditSubjectFormLoader slug={slug} />
     </PageContainer>
   );
 };

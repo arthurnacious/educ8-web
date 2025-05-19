@@ -17,7 +17,7 @@ export const useRemoveStudentsFromClass = ({
   const { toast } = useToast();
 
   const removeStudents = async ({ studentIds }: { studentIds: string[] }) => {
-    const response = await fetchClient(
+    const response = await fetchClient<{ data: unknown }>(
       `${api_url}/courses/${courseId}/students/remove`,
       {
         method: "PATCH",
@@ -25,11 +25,11 @@ export const useRemoveStudentsFromClass = ({
       }
     );
 
-    if (!response.ok) {
+    if (!response) {
       throw new Error("Failed to remove Students");
     }
 
-    return response.json();
+    return response;
   };
 
   const mutation = useMutation({
