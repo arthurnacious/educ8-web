@@ -26,11 +26,11 @@ export const useDeleteSubjects = ({
       body: JSON.stringify({ idsArray }),
     });
 
-    if (!response.ok) {
+    if (!response) {
       throw new Error("Failed to delete subjects");
     }
 
-    return response.json();
+    return response;
   };
 
   const mutation = useMutation({

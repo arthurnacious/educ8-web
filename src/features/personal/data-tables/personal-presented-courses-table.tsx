@@ -11,11 +11,10 @@ type Props = object;
 const PersonalPresentedCoursesTable: FC<Props> = () => {
   const { data, isLoading, isError, refetch } = useGetPersonalCourses();
 
-  if (isLoading || !data?.data)
-    return <TableSkeleton className="mt-5" rows={11} />;
+  if (isLoading || !data) return <TableSkeleton className="mt-5" rows={11} />;
   if (isError) return <TableError className="mt-5" onRetry={() => refetch} />;
 
-  const presentedCourses = data?.data.presentedCourses;
+  const presentedCourses = data.presentedCourses;
 
   console.log(presentedCourses);
 

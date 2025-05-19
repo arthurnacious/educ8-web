@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { api_url } from "@/lib/config";
 import { useFetchClient } from "@/lib/fetch-client";
-import { Subject } from "@/types/subjects";
+import { Subject, SubjectWithDepartment } from "@/types/subjects";
 
 export function useGetAllSubjects() {
   const { fetchClient, isAuthenticated } = useFetchClient();
@@ -9,9 +9,9 @@ export function useGetAllSubjects() {
   return useQuery({
     queryKey: ["subjects"],
     queryFn: async () =>
-      fetchClient<{ data: Subject[] }>(`${api_url}/subjects`).then(
-        (res) => res.data
-      ),
+      fetchClient<{ data: SubjectWithDepartment[] }>(
+        `${api_url}/subjects`
+      ).then((res) => res.data),
     enabled: isAuthenticated,
   });
 }

@@ -175,11 +175,11 @@ export const useAssignUserToDepartment = ({
       body: JSON.stringify({ userId, departmentId, role }),
     });
 
-    if (!response.data) {
+    if (!response) {
       throw new Error("Failed to attach user to department");
     }
 
-    return response.json();
+    return response;
   };
 
   const mutation = useMutation({
@@ -225,11 +225,11 @@ export const useUnassignedMembersWithIds = ({
       body: JSON.stringify({ idObject }),
     });
 
-    if (!response.ok) {
+    if (!response) {
       throw new Error("Failed to remove users from department");
     }
 
-    return response.json();
+    return response;
   };
 
   const mutation = useMutation({

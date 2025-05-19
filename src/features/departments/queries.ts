@@ -27,8 +27,8 @@ export function useGetDepartmentBySlug(slug: string) {
   const getDepartmentBySlug = async (): Promise<{
     data: GetDepartmentBySlugType;
   }> => {
-    const data = await fetchClient(`${api_url}/departments/${slug}`).then(
-      (res) => res.json()
+    const data = await fetchClient<{ data: GetDepartmentBySlugType }>(
+      `${api_url}/departments/${slug}`
     );
 
     return data;
@@ -49,8 +49,8 @@ export function useGetDepartmentRoles() {
       name: string;
     }[];
   }> => {
-    const data = await fetchClient(`${api_url}/departments/roles`).then((res) =>
-      res.json()
+    const data = await fetchClient<{ data: { id: string; name: string }[] }>(
+      `${api_url}/departments/roles`
     );
 
     return data;

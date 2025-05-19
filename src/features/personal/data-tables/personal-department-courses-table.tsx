@@ -11,18 +11,18 @@ type Props = object;
 const PersonalDepartmentCourseTable: FC<Props> = () => {
   const { data, isLoading, isError, refetch } = useGetPersonalCourses();
 
-  if (isLoading || !data?.data)
-    return <TableSkeleton className="mt-5" rows={11} />;
-  if (isError) return <TableError className="mt-5" onRetry={() => refetch} />;
+  if (isLoading || !data) return <TableSkeleton className="mt-5" rows={11} />;
 
-  const departmentCourse = data?.data.departmentCourses;
+  if (isError) return <TableError className="mt-5" onRetry={() => refetch()} />;
+
+  const departmentCourses = data.departmentCourses;
 
   return (
     <div className="space-y-4 mt-5">
       <DataTable
         defaultSortingColumn="subjectName"
         columns={columns({})}
-        data={departmentCourse}
+        data={departmentCourses}
       />
     </div>
   );

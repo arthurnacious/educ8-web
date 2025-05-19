@@ -11,3 +11,11 @@ export interface Subject {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface SubjectWithDepartment extends Subject {
+  department: {
+    id: string;
+    name: string;
+    slug: string;
+  };
+}

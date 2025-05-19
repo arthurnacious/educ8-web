@@ -5,18 +5,10 @@ import Actions from "@/features/subjects/actions";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Subject } from "@/types/subjects";
+import { SubjectWithDepartment } from "@/types/subjects";
 
 interface Props {
   onEditClick?: (slug: string) => void;
-}
-
-interface SubjectWithDepartment extends Subject {
-  department: {
-    id: string;
-    name: string;
-    slug: string;
-  };
 }
 
 export const columns = ({

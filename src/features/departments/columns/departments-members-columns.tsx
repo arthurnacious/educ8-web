@@ -46,9 +46,6 @@ export const columns = ({}: Props): ColumnDef<Member>[] => [
     id: "name",
     header: "Name",
     accessorFn: ({ user }) => user.name,
-    cell: ({ row }) => {
-      return row.original.user.name;
-    },
   },
   {
     id: "email",
