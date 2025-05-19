@@ -3,10 +3,17 @@ import { api_url } from "@/lib/config";
 import { useFetchClient } from "@/lib/fetch-client";
 import { AuditLog } from "@/types/audit-logs";
 
+interface AuditLogWithUser extends AuditLog {
+  user: {
+    id: string;
+    name: string;
+  };
+}
+
 export function useGetAuditLogs() {
   const { fetchClient, isAuthenticated } = useFetchClient();
   const getAuditLogs = async () => {
-    const data = await fetchClient<{ data: AuditLog[] }>(
+    const data = await fetchClient<{ data: AuditLogWithUser[] }>(
       `${api_url}/audit-logs`
     );
 

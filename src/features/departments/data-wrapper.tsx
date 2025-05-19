@@ -29,7 +29,12 @@ const DataWrapper: FC<Props> = ({}) => {
     isError,
     refetch,
   } = useGetAllDepartments();
-  const { mutate: deleteSelctedDepartments } = useDeleteDepartments({});
+  const { mutate: deleteSelectedDepartments } = useDeleteDepartments({});
+
+  const handleDeleteDepartments = (rows: { original: { id: string } }[]) => {
+    const ids = rows.map(({ original }) => original.id);
+    deleteSelectedDepartments({ ids });
+  };
 
   return (
     <div>
@@ -58,10 +63,7 @@ const DataWrapper: FC<Props> = ({}) => {
             onEditClick: setEditDepartmentSlug,
           })}
           delete={{
-            onDelete: (rows) => {
-              const ids = rows.map(({ original }) => original.id);
-              deleteSelctedDepartments({ ids });
-            },
+            onDelete: handleDeleteDepartments,
           }}
           data={departments}
           defaultSortingColumn="name"

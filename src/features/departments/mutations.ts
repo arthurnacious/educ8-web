@@ -1,7 +1,9 @@
+"use client";
 import { useToast } from "@/hooks/use-toast";
 import { api_url } from "@/lib/config";
 import { useFetchClient } from "@/lib/fetch-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Department } from "./interface";
 
 type CreateProps = {
   setOpen: (open: boolean) => void;
@@ -23,16 +25,19 @@ export const useCreateDepartment = ({ setOpen }: CreateProps) => {
   const { toast } = useToast();
 
   const createDepartment = async ({ name }: { name: string }) => {
-    const response = await fetchClient(`${api_url}/departments`, {
-      method: "POST",
-      body: JSON.stringify({ name }),
-    });
+    const response = await fetchClient<{ data: Department }>(
+      `${api_url}/departments`,
+      {
+        method: "POST",
+        body: JSON.stringify({ name }),
+      }
+    );
 
-    if (!response.ok) {
+    if (!response) {
       throw new Error("Failed to create department");
     }
 
-    return response.json();
+    return response;
   };
 
   const mutation = useMutation({
@@ -59,42 +64,39 @@ export const useCreateDepartment = ({ setOpen }: CreateProps) => {
 };
 
 export const useDeleteDepartments = ({
-  onSucces: callback,
+  onSuccess: callback,
 }: {
-  onSucces?: () => void;
+  onSuccess?: () => void;
 }) => {
   const { fetchClient } = useFetchClient();
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const deleteDepartment = async ({ ids }: { ids: string[] }) => {
-    const response = await fetchClient(`${api_url}/departments`, {
-      method: "PATCH",
-      body: JSON.stringify({ ids }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to delete departments");
-    }
-
-    return response.json();
-  };
-
   const mutation = useMutation({
-    mutationFn: deleteDepartment,
+    mutationFn: async ({ ids }: { ids: string[] }) => {
+      const res = await fetchClient<{ data: Department[] }>(
+        `${api_url}/departments`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({ ids }),
+        }
+      );
+
+      return res.data;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["departments"] });
       toast({
         title: "Success!",
-        description: "Successfully deleted to Department",
+        description: "Successfully deleted department(s).",
       });
-      if (callback) callback();
+      callback?.();
     },
     onError: (error) => {
       console.error("Error deleting departments:", error);
       toast({
         title: "Error!",
-        description: "An error occurred while deleting departments",
+        description: "An error occurred while deleting departments.",
         variant: "destructive",
       });
     },
@@ -112,16 +114,19 @@ export const useUpdateDepartment = ({
   const { toast } = useToast();
 
   const createDepartment = async ({ name }: { name: string }) => {
-    const response = await fetchClient(`${api_url}/departments/${slug}`, {
-      method: "PUT",
-      body: JSON.stringify({ name }),
-    });
+    const response = await fetchClient<{ data: Department }>(
+      `${api_url}/departments/${slug}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ name }),
+      }
+    );
 
     if (!response.data) {
       throw new Error("Failed to update department");
     }
 
-    return response.json();
+    return response;
   };
 
   const mutation = useMutation({

@@ -3,7 +3,7 @@ import { api_url } from "@/lib/config";
 import { useFetchClient } from "@/lib/fetch-client";
 import { Enrollment, Field, Session } from "./types";
 
-type ClassData = {
+type Course = {
   id: string;
   name: string;
   sessions: Session[];
@@ -13,11 +13,9 @@ type ClassData = {
 
 export function useGetClassById({ courseId }: { courseId: string }) {
   const { fetchClient, isAuthenticated } = useFetchClient();
-  const getClassById = async (
-    courseId: string
-  ): Promise<{ data: ClassData }> => {
-    const data = await fetchClient(`${api_url}/courses/${courseId}`).then(
-      async (res) => await res.json()
+  const getClassById = async (courseId: string) => {
+    const data = await fetchClient<{ data: Course }>(
+      `${api_url}/courses/${courseId}`
     );
 
     return data;
